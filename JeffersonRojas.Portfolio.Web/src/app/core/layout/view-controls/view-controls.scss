@@ -1,0 +1,33 @@
+@use 'mixins' as *;
+
+:host {
+  position: fixed;
+  top: var(--space-2xs);
+  // Tracks the content column rather than the raw viewport edge, so on a wide
+  // monitor the controls stay in line with the page instead of drifting off.
+  right: var(--index-inset);
+  z-index: 60;
+
+  // Read by the two controls themselves. Inside the cluster they tighten
+  // horizontally; the full 44px target is kept vertically.
+  --switcher-border: transparent;
+  --switcher-option-width: 2.375rem;
+  --toggle-width: 2.375rem;
+}
+
+.view-controls {
+  display: flex;
+  gap: var(--space-3xs);
+  align-items: center;
+  padding: var(--space-3xs);
+  // Solid first: the translucent version only applies where the browser can
+  // actually blur what is behind it, so the labels never lose their contrast.
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+
+  @supports (backdrop-filter: blur(12px)) {
+    background-color: color-mix(in srgb, var(--color-surface) 78%, transparent);
+    backdrop-filter: blur(12px) saturate(140%);
+  }
+}

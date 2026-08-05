@@ -1,0 +1,61 @@
+<section class="section section--bordered" id="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <div class="contact">
+      <div class="contact__statement">
+        <h2 class="section__title" id="contact-title">{{ copy().title }}</h2>
+        <p class="contact__message">{{ copy().message }}</p>
+      </div>
+
+      <ul class="contact__channels">
+        <li class="contact__channel">
+          <span class="field-label">{{ copy().emailLabel }}</span>
+          <a class="link contact__value" [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+        </li>
+
+        @if (contact.linkedinUrl !== null) {
+          <li class="contact__channel">
+            <span class="field-label">{{ copy().linkedinLabel }}</span>
+            <a
+              class="link contact__value"
+              [href]="contact.linkedinUrl"
+              target="_blank"
+              rel="noopener"
+            >
+              {{ copy().linkedinLabel }}
+              <span class="visually-hidden">({{ t().a11y.opensInNewTab }})</span>
+            </a>
+          </li>
+        }
+
+        @if (contact.githubUrl !== null) {
+          <li class="contact__channel">
+            <span class="field-label">{{ copy().githubLabel }}</span>
+            <a
+              class="link contact__value"
+              [href]="contact.githubUrl"
+              target="_blank"
+              rel="noopener"
+            >
+              {{ copy().githubLabel }}
+              <span class="visually-hidden">({{ t().a11y.opensInNewTab }})</span>
+            </a>
+          </li>
+        }
+
+        @if (resume.available) {
+          <li class="contact__channel">
+            <span class="field-label">{{ t().common.resumeFormatLabel }}</span>
+            <a
+              class="link contact__value"
+              [href]="resume.path"
+              [attr.aria-label]="resumeLabel()"
+              download
+            >
+              {{ t().common.downloadResume }}
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

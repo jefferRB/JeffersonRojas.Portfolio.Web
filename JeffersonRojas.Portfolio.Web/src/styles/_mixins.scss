@@ -1,0 +1,45 @@
+// Shared SCSS helpers.
+// Resolved through `stylePreprocessorOptions.includePaths` (src/styles) so any
+// component can `@use 'mixins' as *;`.
+
+$bp-sm: 30rem; // 480px
+$bp-md: 48rem; // 768px
+// Where the floating section index can show its labels beside the content
+// without either one crowding the other. Below this it collapses to a trigger.
+$bp-lg: 64rem; // 1024px
+$bp-xl: 80rem; // 1280px
+
+@mixin from($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin below($breakpoint) {
+  @media (max-width: ($breakpoint - 0.0625rem)) {
+    @content;
+  }
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+/// Hover styles gated to real pointers.
+/// Touch devices fire :hover on tap and then keep it stuck until the next tap
+/// elsewhere, so ungated hover states read as broken on mobile.
+@mixin hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+/// Consistent, always-visible focus indicator.
+@mixin focus-ring($offset: 2px) {
+  outline: 2px solid var(--color-focus);
+  outline-offset: $offset;
+}

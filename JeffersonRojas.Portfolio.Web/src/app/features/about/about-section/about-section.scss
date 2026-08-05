@@ -1,0 +1,101 @@
+@use 'mixins' as *;
+
+.about {
+  display: grid;
+  gap: var(--space-xl);
+
+  @include from($bp-lg) {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: var(--space-3xl);
+    align-items: start;
+  }
+}
+
+.about__prose > p {
+  font-size: var(--text-md);
+}
+
+.about__meta {
+  display: grid;
+  gap: var(--space-lg);
+
+  @include from($bp-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include from($bp-lg) {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: var(--space-2xs);
+  }
+}
+
+.about__block {
+  padding-top: var(--space-2xs);
+  border-top: 1px solid var(--color-border);
+}
+
+.about__degree {
+  font-size: var(--text-sm);
+  font-weight: 550;
+}
+
+.about__detail {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.about__languages {
+  margin: 0;
+}
+
+.about__language {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  font-size: var(--text-sm);
+
+  dt {
+    font-weight: 550;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+}
+
+// --- Working principles ---------------------------------------------------
+
+.principles {
+  margin-top: var(--space-2xl);
+}
+
+.principles__list {
+  display: grid;
+  gap: 0;
+  padding: 0;
+  margin-top: var(--space-2xs);
+  list-style: none;
+  border-top: 1px solid var(--color-border);
+
+  @include from($bp-md) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    border-top: 0;
+  }
+}
+
+.principles__item {
+  padding-block: var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+
+  // On wide viewports the principles read as a row of columns under a single
+  // rule, rather than as five stacked rows each with its own hairline.
+  @include from($bp-md) {
+    padding-top: var(--space-sm);
+    padding-right: var(--space-sm);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 0;
+  }
+}

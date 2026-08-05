@@ -1,0 +1,15 @@
+<div class="language-switcher" role="group" [attr.aria-label]="t().a11y.languageGroupLabel">
+  @for (option of locales; track option) {
+    <a
+      class="language-switcher__option"
+      [class.is-active]="option === locale()"
+      [href]="href(option)"
+      [attr.hreflang]="option"
+      [attr.aria-current]="option === locale() ? 'true' : null"
+      (click)="select($event, option)"
+    >
+      <span aria-hidden="true">{{ option === 'en' ? 'EN' : 'ES' }}</span>
+      <span class="visually-hidden">{{ t().a11y.localeNames[option] }}</span>
+    </a>
+  }
+</div>

@@ -1,0 +1,45 @@
+<section class="section section--bordered" id="about" aria-labelledby="about-title">
+  <div class="container">
+    <header class="section__header">
+      <h2 class="section__title" id="about-title">{{ copy().title }}</h2>
+    </header>
+
+    <div class="about">
+      <div class="prose about__prose">
+        @for (paragraph of copy().paragraphs; track paragraph) {
+          <p>{{ paragraph }}</p>
+        }
+      </div>
+
+      <div class="about__meta">
+        <div class="about__block">
+          <h3 class="field-label">{{ copy().education.label }}</h3>
+          <p class="about__degree">{{ copy().education.degree }}</p>
+          <p class="about__detail">{{ copy().education.institution }}</p>
+          <p class="about__detail">{{ copy().education.year }}</p>
+        </div>
+
+        <div class="about__block">
+          <h3 class="field-label">{{ copy().languages.label }}</h3>
+          <dl class="about__languages">
+            @for (language of copy().languages.items; track language.name) {
+              <div class="about__language">
+                <dt>{{ language.name }}</dt>
+                <dd>{{ language.level }}</dd>
+              </div>
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="principles">
+      <h3 class="field-label">{{ copy().principles.label }}</h3>
+      <ul class="principles__list">
+        @for (principle of copy().principles.items; track principle) {
+          <li class="principles__item">{{ principle }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,46 @@
+@use 'mixins' as *;
+
+// `--switcher-border` and `--switcher-option-width` let a host tighten the
+// control without reaching into this stylesheet. Both fall back to the
+// standalone appearance when nobody sets them.
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid var(--switcher-border, var(--color-border));
+  border-radius: var(--radius-md);
+}
+
+.language-switcher__option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--switcher-option-width, 2.75rem);
+  // Full 44px target: this is a primary control in the mobile panel.
+  min-height: var(--tap-target);
+  padding-inline: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 550;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+
+  @include hover {
+    color: var(--color-text);
+    background-color: var(--color-surface-muted);
+  }
+
+  // The active language is marked by weight and surface, not by colour alone.
+  &.is-active {
+    color: var(--color-accent-contrast);
+    background-color: var(--color-accent);
+  }
+
+  + .language-switcher__option {
+    border-left: 1px solid var(--color-border);
+  }
+}

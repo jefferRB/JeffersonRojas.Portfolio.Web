@@ -1,0 +1,49 @@
+<section
+  class="section section--bordered work-process"
+  id="process"
+  aria-labelledby="process-title"
+>
+  <div class="container">
+    <header class="section__header">
+      <p class="eyebrow">{{ copy().eyebrow }}</p>
+      <h2 id="process-title">{{ copy().title }}</h2>
+    </header>
+
+    <ol class="process" [attr.aria-label]="copy().listLabel">
+      @for (stage of stages(); track stage.id; let index = $index) {
+        <li
+          class="process__stage"
+          [class.is-active]="index === active()"
+          [class.is-reached]="index <= active()"
+        >
+          <div class="process__rail" aria-hidden="true">
+            <span class="process__node"></span>
+            <span class="process__line"></span>
+          </div>
+
+          <button
+            #stageButton
+            type="button"
+            class="process__trigger"
+            [attr.aria-current]="index === active() ? 'step' : null"
+            [attr.aria-describedby]="'process-description-' + stage.id"
+            (click)="select(index)"
+            (focus)="select(index)"
+            (mouseenter)="select(index)"
+            (keydown)="onKeydown($event, index)"
+          >
+            <span class="process__step">{{ stage.step }}</span>
+            <span class="process__name">{{ stage.name }}</span>
+            @if (index === active()) {
+              <span class="visually-hidden">, {{ copy().activeStageLabel }}</span>
+            }
+          </button>
+
+          <p class="process__description" [id]="'process-description-' + stage.id">
+            {{ stage.description }}
+          </p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>

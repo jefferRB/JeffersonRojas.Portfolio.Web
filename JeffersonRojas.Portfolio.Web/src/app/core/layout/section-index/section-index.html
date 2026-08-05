@@ -1,0 +1,49 @@
+<nav class="index" [attr.aria-label]="navLabel()" (keydown.escape)="close()">
+  <!--
+    Only reachable below the expanded breakpoint; above it the list is shown
+    permanently and this trigger is removed from the layout and the a11y tree.
+  -->
+  <button
+    type="button"
+    class="index__toggle"
+    aria-controls="section-index-list"
+    [attr.aria-expanded]="isOpen()"
+    (click)="toggle()"
+  >
+    <svg
+      class="index__toggle-glyph"
+      viewBox="0 0 16 20"
+      width="16"
+      height="20"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M5 3v14" stroke="currentColor" stroke-width="1" opacity="0.5" />
+      <circle cx="5" cy="4" r="1.6" fill="currentColor" opacity="0.55" />
+      <circle cx="5" cy="10" r="2.1" fill="currentColor" />
+      <circle cx="5" cy="16" r="1.6" fill="currentColor" opacity="0.55" />
+      <path d="M10 4h4M10 10h4M10 16h4" stroke="currentColor" stroke-width="1.4" opacity="0.55" />
+    </svg>
+    <span class="visually-hidden">
+      {{ isOpen() ? t().nav.closeIndex : t().nav.openIndex }}
+    </span>
+  </button>
+
+  <ol id="section-index-list" class="index__list" [class.is-open]="isOpen()">
+    @for (item of items(); track item.id) {
+      <li class="index__item">
+        <a
+          class="index__link"
+          [class.is-active]="active() === item.id"
+          [routerLink]="basePath()"
+          [fragment]="item.id"
+          [attr.aria-current]="active() === item.id ? 'location' : null"
+          (click)="close()"
+        >
+          <span class="index__node" aria-hidden="true"></span>
+          <span class="index__label">{{ item.label }}</span>
+        </a>
+      </li>
+    }
+  </ol>
+</nav>

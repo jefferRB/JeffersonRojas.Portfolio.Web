@@ -1,0 +1,153 @@
+<article class="case-study">
+  <!-- A. Hero -->
+  <header class="case-hero" id="overview">
+    <div class="container">
+      <a class="action-link case-hero__back" [routerLink]="homePath()" fragment="projects">
+        <span class="action-link__arrow case-hero__back-arrow" aria-hidden="true">&lt;-</span>
+        {{ t().common.backToPortfolio }}
+      </a>
+
+      <h1 class="case-hero__name">{{ copy().name }}</h1>
+
+      <dl class="case-hero__meta">
+        <div class="case-hero__meta-item">
+          <dt class="field-label">{{ t().common.statusLabel }}</dt>
+          <dd class="case-hero__meta-value">{{ copy().tag }}</dd>
+        </div>
+        <div class="case-hero__meta-item">
+          <dt class="field-label">{{ t().common.roleLabel }}</dt>
+          <dd class="case-hero__meta-value">{{ copy().role }}</dd>
+        </div>
+      </dl>
+
+      <p class="case-hero__summary">{{ copy().summary }}</p>
+
+      <a class="link case-hero__site" [href]="siteUrl" target="_blank" rel="noopener">
+        {{ t().common.visitSite }}
+        <span class="visually-hidden">({{ t().a11y.opensInNewTab }})</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- B. Context -->
+  <section class="section section--bordered" id="context" aria-labelledby="context-title">
+    <div class="container">
+      <h2 class="section__title case-section__title" id="context-title">
+        {{ copy().context.title }}
+      </h2>
+      <div class="prose case-prose">
+        @for (paragraph of copy().context.paragraphs; track paragraph) {
+          <p>{{ paragraph }}</p>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- C. My role -->
+  <section class="section section--bordered" id="role" aria-labelledby="role-title">
+    <div class="container">
+      <h2 class="section__title case-section__title" id="role-title">{{ copy().myRole.title }}</h2>
+      <p class="lede case-lead">{{ copy().myRole.lead }}</p>
+
+      <div class="role-groups">
+        @for (group of copy().myRole.groups; track group.label) {
+          <div class="role-group">
+            <h3 class="field-label">{{ group.label }}</h3>
+            <ul class="role-group__list">
+              @for (item of group.items; track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- D. From workflow to product -->
+  <section class="section section--bordered" id="process" aria-labelledby="flow-title">
+    <div class="container">
+      <h2 class="section__title case-section__title" id="flow-title">{{ copy().flow.title }}</h2>
+
+      <ol class="stages">
+        @for (stage of copy().flow.stages; track stage.id) {
+          <li class="stages__item">
+            <h3 class="stages__name">{{ stage.name }}</h3>
+            <p class="stages__description">{{ stage.description }}</p>
+          </li>
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- E. Product scope -->
+  <section class="section section--bordered" id="scope" aria-labelledby="scope-title">
+    <div class="container">
+      <h2 class="section__title case-section__title" id="scope-title">{{ copy().scope.title }}</h2>
+
+      <div class="scope">
+        @for (group of copy().scope.groups; track group.label) {
+          <div class="scope__group">
+            <h3 class="field-label">{{ group.label }}</h3>
+            <ul class="scope__list">
+              @for (item of group.items; track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- F. Architecture -->
+  <section class="section section--bordered" id="architecture" aria-labelledby="architecture-title">
+    <div class="container">
+      <h2 class="section__title case-section__title" id="architecture-title">
+        {{ copy().architecture.title }}
+      </h2>
+      <p class="lede case-lead">{{ copy().architecture.lead }}</p>
+
+      <app-architecture-diagram [copy]="copy().architecture" />
+    </div>
+  </section>
+
+  <!-- G. Engineering challenges -->
+  <section class="section section--bordered" id="challenges" aria-labelledby="challenges-title">
+    <div class="container">
+      <h2 class="section__title case-section__title" id="challenges-title">
+        {{ copy().challenges.title }}
+      </h2>
+
+      <app-engineering-challenges [copy]="copy().challenges" />
+    </div>
+  </section>
+
+  <!-- H. What I learned -->
+  <section class="section section--bordered" id="learned" aria-labelledby="learned-title">
+    <div class="container">
+      <h2 class="section__title case-section__title" id="learned-title">
+        {{ copy().learned.title }}
+      </h2>
+
+      <ul class="learned">
+        @for (item of copy().learned.items; track item) {
+          <li class="learned__item">{{ item }}</li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- I. Current status -->
+  <section class="section section--bordered" id="status" aria-labelledby="status-title">
+    <div class="container">
+      <h2 class="field-label" id="status-title">{{ copy().status.title }}</h2>
+      <p class="case-status">{{ copy().status.value }}</p>
+
+      <a class="action-link case-status__back" [routerLink]="homePath()" fragment="projects">
+        <span class="action-link__arrow case-hero__back-arrow" aria-hidden="true">&lt;-</span>
+        {{ t().common.backToPortfolio }}
+      </a>
+    </div>
+  </section>
+</article>

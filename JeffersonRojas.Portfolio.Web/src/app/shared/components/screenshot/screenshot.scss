@@ -1,0 +1,136 @@
+@use 'mixins' as *;
+
+.shot {
+  margin: 0;
+}
+
+// The trigger is a plain wrapper: the image is the affordance, not a chrome.
+.shot__trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  cursor: zoom-in;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-screenshot-frame);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-fast) var(--ease-out);
+
+  @include hover {
+    border-color: var(--color-accent);
+  }
+}
+
+// The whole capture, always. `contain` is stated rather than relied on: with
+// `height: auto` it changes nothing today, and it is what stops a future height
+// constraint from silently cropping a table or a chart edge out of the frame.
+.shot__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+// Reserved slot for a capture that is not published yet.
+.shot__slot {
+  background-image:
+    linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+  background-color: var(--color-surface-muted);
+  // Dashed, to read as "reserved" rather than as a rendered frame.
+  border: 1px dashed var(--color-screenshot-frame);
+  border-radius: var(--radius-md);
+}
+
+.shot__pending {
+  margin-top: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.shot__caption {
+  max-width: var(--measure);
+  margin-top: var(--space-2xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-subtle);
+}
+
+// --- Enlarged view --------------------------------------------------------
+
+.shot-dialog {
+  width: min(96vw, 88rem);
+  max-width: none;
+  max-height: 92dvh;
+  padding: 0;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+
+  &::backdrop {
+    background-color: rgb(0 0 0 / 70%);
+  }
+
+  // Nothing appears from nothing: the panel eases in from a near-final scale.
+  &[open] {
+    animation: shot-dialog-in var(--duration-base) var(--ease-out);
+  }
+
+  @include reduced-motion {
+    &[open] {
+      animation: none;
+    }
+  }
+}
+
+@keyframes shot-dialog-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+.shot-dialog__panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 92dvh;
+}
+
+.shot-dialog__bar {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2xs) var(--space-2xs) var(--space-2xs) var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.shot-dialog__title {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+// Dense dashboards need panning on small screens rather than shrinking further.
+.shot-dialog__scroll {
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.shot-dialog__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+
+  @include below($bp-md) {
+    width: auto;
+    max-width: none;
+    height: auto;
+    min-height: 40dvh;
+  }
+}

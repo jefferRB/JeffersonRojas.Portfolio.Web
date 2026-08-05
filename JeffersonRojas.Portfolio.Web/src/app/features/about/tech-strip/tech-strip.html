@@ -1,0 +1,202 @@
+<!--
+  The mark for one technology. Simplified silhouettes in each project's own
+  colour, drawn here rather than pulled from a logo pack: they are decoration
+  with the name spelled out underneath, so none of them has to be exact.
+-->
+<ng-template #mark let-technology>
+  @switch (technology.id) {
+    @case ('csharp') {
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 2 43 13v22L24 46 5 35V13Z" fill="#9b4f96" />
+        <text
+          x="24"
+          y="24"
+          dy=".36em"
+          text-anchor="middle"
+          font-size="16"
+          font-weight="600"
+          fill="#fff"
+        >
+          C#
+        </text>
+      </svg>
+    }
+    @case ('dotnet') {
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="3" y="3" width="42" height="42" rx="9" fill="#512bd4" />
+        <text
+          x="24"
+          y="24"
+          dy=".36em"
+          text-anchor="middle"
+          font-size="13"
+          font-weight="600"
+          fill="#fff"
+        >
+          .NET
+        </text>
+      </svg>
+    }
+    @case ('sqlserver') {
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M8 13v22c0 3.3 7.2 6 16 6s16-2.7 16-6V13Z" fill="#cc2927" />
+        <ellipse cx="24" cy="13" rx="16" ry="6" fill="#e35d5b" />
+        <path
+          d="M8 22c0 3.3 7.2 6 16 6s16-2.7 16-6"
+          fill="none"
+          stroke="#fff"
+          stroke-width="1.6"
+          opacity=".55"
+        />
+      </svg>
+    }
+    @case ('angular') {
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 3 44 10l-3 25-17 10-17-10L4 10Z" fill="#dd0031" />
+        <text
+          x="24"
+          y="25"
+          dy=".36em"
+          text-anchor="middle"
+          font-size="19"
+          font-weight="600"
+          fill="#fff"
+        >
+          A
+        </text>
+      </svg>
+    }
+    @case ('typescript') {
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="3" y="3" width="42" height="42" rx="5" fill="#3178c6" />
+        <text
+          x="24"
+          y="24"
+          dy=".36em"
+          text-anchor="middle"
+          font-size="16"
+          font-weight="600"
+          fill="#fff"
+        >
+          TS
+        </text>
+      </svg>
+    }
+    @case ('javascript') {
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="3" y="3" width="42" height="42" rx="5" fill="#f7df1e" />
+        <text
+          x="24"
+          y="24"
+          dy=".36em"
+          text-anchor="middle"
+          font-size="16"
+          font-weight="700"
+          fill="#1b1f27"
+        >
+          JS
+        </text>
+      </svg>
+    }
+    @case ('aspnetcore') {
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="3" y="3" width="42" height="42" rx="9" fill="#5c2d91" />
+        <text
+          x="24"
+          y="19"
+          dy=".36em"
+          text-anchor="middle"
+          font-size="11"
+          font-weight="600"
+          fill="#fff"
+        >
+          .NET
+        </text>
+        <text x="24" y="31" dy=".36em" text-anchor="middle" font-size="9" fill="#d8c9f0">Core</text>
+      </svg>
+    }
+    @case ('html') {
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M7 4h34l-3 32-14 8-14-8Z" fill="#e34f26" />
+        <path d="M24 8v32l11-6.4L37.6 8Z" fill="#f06529" />
+        <text
+          x="24"
+          y="25"
+          dy=".36em"
+          text-anchor="middle"
+          font-size="18"
+          font-weight="700"
+          fill="#fff"
+        >
+          5
+        </text>
+      </svg>
+    }
+    @case ('css') {
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M7 4h34l-3 32-14 8-14-8Z" fill="#1572b6" />
+        <path d="M24 8v32l11-6.4L37.6 8Z" fill="#33a9dc" />
+        <text
+          x="24"
+          y="25"
+          dy=".36em"
+          text-anchor="middle"
+          font-size="18"
+          font-weight="700"
+          fill="#fff"
+        >
+          3
+        </text>
+      </svg>
+    }
+    @case ('git') {
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 2 46 24 24 46 2 24Z" fill="#f05032" />
+        <g stroke="#fff" stroke-width="2.6" stroke-linecap="round" fill="none">
+          <path d="M16 32 32 16" />
+          <path d="M24 24l7 6" />
+        </g>
+        <g fill="#fff">
+          <circle cx="16" cy="32" r="3.4" />
+          <circle cx="32" cy="16" r="3.4" />
+          <circle cx="31" cy="30" r="3.4" />
+        </g>
+      </svg>
+    }
+  }
+</ng-template>
+
+<!-- One technology: the mark leads, the name confirms it. -->
+<ng-template #item let-technology>
+  <li class="marquee__item">
+    <span class="marquee__logo">
+      <ng-container *ngTemplateOutlet="mark; context: { $implicit: technology }" />
+    </span>
+    <span class="marquee__name">{{ technology.name }}</span>
+  </li>
+</ng-template>
+
+<div class="marquee" [class.is-static]="reducedMotion()">
+  <!--
+    Always a tab stop, in both modes. While it is moving, focusing it is what
+    lets a keyboard user stop it — a pointer can hover, and this is the
+    equivalent. Standing still it is the handle for panning the row.
+  -->
+  <ul class="marquee__track" tabindex="0" [attr.aria-label]="copy().label">
+    @for (technology of technologies; track technology.id) {
+      <ng-container *ngTemplateOutlet="item; context: { $implicit: technology }" />
+    }
+  </ul>
+
+  <!--
+    A second copy of the same run, hidden from assistive technology: it exists
+    only so that the moment the first track leaves the frame the second is
+    already in the position it started from, which is what makes the loop
+    seamless rather than a jump back to the beginning.
+  -->
+  <ul class="marquee__track" aria-hidden="true">
+    @for (technology of technologies; track technology.id) {
+      <ng-container *ngTemplateOutlet="item; context: { $implicit: technology }" />
+    }
+  </ul>
+</div>

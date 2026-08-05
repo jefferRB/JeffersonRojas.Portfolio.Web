@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+// Nothing is inset here any more: the chrome floats above the page, so the
+// shell owns the whole width and the content column is set by `.container`.
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+main {
+  flex: 1;
+}

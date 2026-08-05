@@ -1,0 +1,161 @@
+@use 'mixins' as *;
+
+.process {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  @include from($bp-md) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+  }
+}
+
+.process__stage {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  grid-template-areas:
+    'rail trigger'
+    'rail description';
+  column-gap: var(--space-sm);
+
+  @include from($bp-md) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'rail'
+      'trigger'
+      'description';
+    row-gap: var(--space-2xs);
+  }
+}
+
+// --- Progress rail -------------------------------------------------------
+// Vertical on mobile (a timeline), horizontal on desktop (a progress line).
+
+.process__rail {
+  display: flex;
+  flex-direction: column;
+  grid-area: rail;
+  align-items: center;
+
+  @include from($bp-md) {
+    flex-direction: row;
+    padding-bottom: var(--space-2xs);
+  }
+}
+
+.process__node {
+  flex-shrink: 0;
+  width: 0.625rem;
+  height: 0.625rem;
+  background-color: var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    box-shadow var(--duration-base) var(--ease-standard);
+}
+
+.process__line {
+  flex: 1;
+  width: 1px;
+  min-height: var(--space-lg);
+  background-color: var(--color-border);
+  transition: background-color var(--duration-slow) var(--ease-standard);
+
+  @include from($bp-md) {
+    width: auto;
+    min-height: 0;
+    height: 1px;
+  }
+}
+
+// The last stage has no segment to draw after it.
+.process__stage:last-child .process__line {
+  @include from($bp-md) {
+    background-color: transparent;
+  }
+}
+
+.process__stage.is-reached {
+  .process__node {
+    background-color: var(--color-accent);
+  }
+
+  .process__line {
+    background-color: var(--color-accent-line);
+  }
+}
+
+.process__stage.is-active .process__node {
+  box-shadow: 0 0 0 4px var(--color-accent-soft);
+}
+
+// --- Trigger and copy ----------------------------------------------------
+
+.process__trigger {
+  display: flex;
+  grid-area: trigger;
+  gap: var(--space-2xs);
+  align-items: baseline;
+  min-height: var(--tap-target);
+  padding: 0;
+  text-align: left;
+
+  @include from($bp-md) {
+    flex-direction: column;
+    gap: var(--space-3xs);
+    align-items: flex-start;
+    min-height: 0;
+    padding-top: var(--space-2xs);
+  }
+}
+
+.process__step {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+  letter-spacing: var(--tracking-wide);
+  transition: color var(--duration-base) var(--ease-standard);
+}
+
+.process__name {
+  font-size: var(--text-lg);
+  font-weight: 560;
+  color: var(--color-text-muted);
+  letter-spacing: var(--tracking-tight);
+  transition: color var(--duration-base) var(--ease-standard);
+}
+
+.process__description {
+  grid-area: description;
+  max-width: 34ch;
+  padding-bottom: var(--space-lg);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-subtle);
+  transition: color var(--duration-base) var(--ease-standard);
+
+  @include from($bp-md) {
+    padding-bottom: 0;
+  }
+}
+
+// Emphasis only — no element is added, removed or resized, so selecting a
+// stage never reflows the section.
+.process__stage.is-active {
+  .process__step {
+    color: var(--color-accent);
+  }
+
+  .process__name,
+  .process__description {
+    color: var(--color-text);
+  }
+}
+
+.process__stage:last-child .process__description {
+  padding-bottom: 0;
+}

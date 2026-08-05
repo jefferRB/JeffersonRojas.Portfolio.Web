@@ -1,0 +1,22 @@
+<footer class="site-footer">
+  <div class="site-footer__inner container">
+    <div>
+      <p class="site-footer__name">{{ t().nav.brand }}</p>
+      <p class="site-footer__role">{{ t().footer.role }}</p>
+    </div>
+
+    <nav [attr.aria-label]="t().footer.navLabel">
+      <ul class="site-footer__links">
+        @for (item of t().nav.items; track item.id) {
+          <li>
+            <a class="site-footer__link" [routerLink]="homePath()" [fragment]="item.id">
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <p class="site-footer__copyright">© {{ year }} {{ t().nav.brand }}</p>
+  </div>
+</footer>

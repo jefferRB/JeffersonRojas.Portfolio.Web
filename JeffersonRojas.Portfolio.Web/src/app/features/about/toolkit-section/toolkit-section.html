@@ -1,0 +1,127 @@
+<section class="section section--bordered toolkit" id="toolkit" aria-labelledby="toolkit-title">
+  <div class="container">
+    <header class="section__header toolkit__header">
+      <h2 class="section__title" id="toolkit-title">{{ copy().title }}</h2>
+      <p class="lede toolkit__lead">{{ copy().lead }}</p>
+    </header>
+
+    <!-- What I build with. -->
+    <section class="toolkit__block" aria-labelledby="toolkit-technologies">
+      <h3 class="field-label" id="toolkit-technologies">{{ copy().technologiesLabel }}</h3>
+      <app-tech-strip [copy]="copy().strip" />
+    </section>
+
+    <!-- What I bring to it. -->
+    <section class="toolkit__block" aria-labelledby="toolkit-skills">
+      <h3 class="field-label" id="toolkit-skills">{{ copy().skillsLabel }}</h3>
+
+      <ul class="skills">
+        @for (skill of copy().skills; track skill.id) {
+          <li class="skills__card">
+            <span class="skills__icon" aria-hidden="true">
+              @switch (skill.id) {
+                @case ('oop') {
+                  <!-- A cube: an object with faces you address one at a time. -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 2.8 20.5 7v10L12 21.2 3.5 17V7Z" />
+                    <path d="M3.5 7 12 11.5 20.5 7M12 11.5v9.7" />
+                  </svg>
+                }
+                @case ('di') {
+                  <!-- One node supplying three others. -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="5" cy="12" r="2.2" />
+                    <circle cx="19" cy="5.5" r="2.2" />
+                    <circle cx="19" cy="12" r="2.2" />
+                    <circle cx="19" cy="18.5" r="2.2" />
+                    <path d="M7.2 12h9.6M7 11 17 6.2M7 13l10 4.8" />
+                  </svg>
+                }
+                @case ('ui') {
+                  <!-- A layout reflowing into a narrower column. -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2.8" y="4.5" width="9" height="15" rx="1.5" />
+                    <rect x="14.5" y="4.5" width="6.7" height="6.5" rx="1.5" />
+                    <rect x="14.5" y="13" width="6.7" height="6.5" rx="1.5" />
+                  </svg>
+                }
+                @case ('data') {
+                  <!-- Stacked cylinders: a table with rows. -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <ellipse cx="12" cy="6" rx="7.2" ry="3.2" />
+                    <path d="M4.8 6v6c0 1.8 3.2 3.2 7.2 3.2s7.2-1.4 7.2-3.2V6" />
+                    <path d="M4.8 12v6c0 1.8 3.2 3.2 7.2 3.2s7.2-1.4 7.2-3.2v-6" />
+                  </svg>
+                }
+                @case ('api') {
+                  <!-- Two endpoints exchanging over a channel. -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2.8" y="8.5" width="6" height="7" rx="1.5" />
+                    <rect x="15.2" y="8.5" width="6" height="7" rx="1.5" />
+                    <path d="M8.8 10.5h6.4M15.2 13.5H8.8" />
+                  </svg>
+                }
+                @case ('git') {
+                  <!-- A branch leaving the trunk and merging back. -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="7" cy="5" r="2.2" />
+                    <circle cx="7" cy="19" r="2.2" />
+                    <circle cx="17" cy="12" r="2.2" />
+                    <path d="M7 7.2v9.6M7 12h7.8" />
+                  </svg>
+                }
+                @case ('devops') {
+                  <!-- A release moving up to a server. -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="3" y="14.5" width="18" height="6" rx="1.5" />
+                    <path d="M7 17.5h.01M10.5 17.5h.01" />
+                    <path d="M12 11.5V3.5M12 3.5 8.8 6.8M12 3.5l3.2 3.3" />
+                  </svg>
+                }
+                @case ('security') {
+                  <!-- A padlock. -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="4.5" y="10.5" width="15" height="10" rx="2" />
+                    <path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7M12 14.5v2.5" />
+                  </svg>
+                }
+                @case ('testing') {
+                  <!-- A passing check inside a file of code. -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path
+                      d="M13.5 2.8H6.5a2 2 0 0 0-2 2v14.4a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8.8Z"
+                    />
+                    <path d="M13.5 2.8v6h6M8.5 14.8l2.4 2.4 4.4-4.6" />
+                  </svg>
+                }
+                @case ('observability') {
+                  <!-- A trace being read after the fact. -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M3.5 3.5v17h17" />
+                    <path d="M7 15.5l3.5-4.5 3 2.8 4.5-6" />
+                  </svg>
+                }
+              }
+            </span>
+
+            <h4 class="skills__title">{{ skill.title }}</h4>
+            <p class="skills__text">{{ skill.description }}</p>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <!-- Closes the section by pointing back at the work rather than at itself. -->
+    <aside class="toolkit__cta">
+      <div class="toolkit__cta-body">
+        <p class="toolkit__cta-title">{{ copy().cta.title }}</p>
+        <p class="toolkit__cta-message">{{ copy().cta.message }}</p>
+      </div>
+
+      <a class="button button--secondary" [routerLink]="homePath()" fragment="projects">
+        {{ copy().cta.action }}
+        <span class="action-link__arrow" aria-hidden="true">-&gt;</span>
+      </a>
+    </aside>
+  </div>
+</section>

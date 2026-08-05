@@ -1,0 +1,188 @@
+@use 'mixins' as *;
+
+.hero {
+  position: relative;
+  // Clears the fixed top-right controls, which are the only chrome above it.
+  padding-block: calc(var(--header-height) + var(--space-lg)) var(--space-3xl);
+  overflow: hidden;
+
+  // Extremely faint technical grid, fading out before it competes with text.
+  &::before {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background-image:
+      linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+    pointer-events: none;
+  }
+
+  // Given room to breathe, the block sits in the middle of it rather than at
+  // the top: the name lands nearer the reader's eye line and the fixed
+  // controls stop feeling like they are resting on the heading.
+  @include from($bp-md) {
+    display: grid;
+    align-content: center;
+    min-height: min(88svh, 50rem);
+    padding-block: calc(var(--header-height) + var(--space-2xl)) var(--space-4xl);
+  }
+}
+
+.hero__inner {
+  position: relative;
+  display: grid;
+  gap: var(--space-lg);
+
+  // Asymmetric split: the message keeps the wider column and the pipeline sits
+  // beside it, starting on the same line as the name — the two are read as one
+  // opening statement rather than as a heading with an attachment below it.
+  //
+  // Held back to $bp-xl on purpose. Narrower than that, the message column is
+  // no longer wide enough for the name to stay on one line, and a stacked hero
+  // is better than a broken heading.
+  @include from($bp-xl) {
+    grid-template-columns: minmax(0, 1.55fr) minmax(14rem, 0.85fr);
+    row-gap: var(--space-md);
+    column-gap: var(--space-2xl);
+    align-items: start;
+  }
+}
+
+.hero__head {
+  @include from($bp-xl) {
+    grid-column: 1;
+  }
+}
+
+.hero__lead {
+  @include from($bp-xl) {
+    grid-column: 1;
+  }
+}
+
+// Sized to hold one line from 375px upward: presence without a heading that
+// breaks into a stack of fragments. Below that it balances onto two lines
+// rather than forcing the page to scroll sideways.
+.hero__title {
+  font-size: var(--text-name);
+  line-height: 1.02;
+}
+
+.hero__subtitle {
+  max-width: var(--measure);
+  margin-top: var(--space-xs);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: var(--leading-snug);
+  color: var(--color-text-muted);
+  letter-spacing: var(--tracking-tight);
+}
+
+// Capped well inside its column: the message column is wide enough to hold a
+// hundred-character line, which no one wants to read.
+.hero__description {
+  max-width: 34rem;
+  margin-top: 0;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-top: var(--space-lg);
+}
+
+.hero__format {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--color-text-subtle);
+  letter-spacing: var(--tracking-wide);
+}
+
+.hero__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+
+  // Stacked under the message, the pipeline needs a clearer break than the
+  // rows above it; beside it, the column gap already provides one.
+  @include below($bp-xl) {
+    margin-top: var(--space-md);
+  }
+
+  // Second column, both rows, so its first node starts level with the name.
+  @include from($bp-xl) {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    // Optically level: the first pipeline label is uppercase mono at 12px, so
+    // its cap height sits higher in the line box than the name's does.
+    padding-top: 0.75rem;
+  }
+}
+
+.hero__secondary {
+  max-width: var(--measure);
+  padding-left: var(--space-sm);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+  border-left: 2px solid var(--color-accent-line);
+}
+
+// --- Production pipeline --------------------------------------------------
+
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.pipeline__step {
+  display: grid;
+  grid-template-columns: 0.75rem 1fr;
+  column-gap: var(--space-sm);
+  align-items: start;
+}
+
+.pipeline__marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.pipeline__node {
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: 0.45rem;
+  background-color: var(--color-bg);
+  border: 1.5px solid var(--color-accent);
+  border-radius: var(--radius-pill);
+}
+
+.pipeline__line {
+  flex: 1;
+  width: 1px;
+  min-height: var(--space-md);
+  margin-block: var(--space-3xs);
+  background: linear-gradient(to bottom, var(--color-accent-line), var(--color-border));
+}
+
+.pipeline__label {
+  padding-bottom: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.pipeline__step:last-child .pipeline__label {
+  padding-bottom: 0;
+  color: var(--color-text);
+}

@@ -1,0 +1,71 @@
+<section class="hero" id="overview" aria-labelledby="hero-title">
+  <div class="hero__inner container">
+    <!--
+      The name is the heading, and it spans the whole grid rather than sharing
+      a column: on a portfolio it is the one thing a reader should leave with,
+      and a narrow column would break it across lines at exactly the sizes
+      where it is supposed to carry the page.
+    -->
+    <div class="hero__head">
+      <h1 class="hero__title" id="hero-title">{{ copy().title }}</h1>
+      <p class="hero__subtitle">{{ copy().subtitle }}</p>
+    </div>
+
+    <div class="hero__lead">
+      <p class="hero__description lede">{{ copy().description }}</p>
+
+      <div class="hero__actions">
+        <a class="button button--primary" [routerLink]="homePath()" fragment="projects">
+          {{ copy().actions.viewWork }}
+        </a>
+
+        @if (resume.available) {
+          <a
+            class="button button--secondary"
+            [href]="resume.path"
+            [attr.aria-label]="resumeLabel()"
+            download
+          >
+            {{ t().common.downloadResume }}
+            <span class="hero__format" aria-hidden="true">{{ t().common.resumeFormatLabel }}</span>
+          </a>
+        } @else {
+          <!--
+            Rendered only while no PDF exists. aria-disabled keeps the control
+            focusable so the reason stays discoverable.
+          -->
+          <button type="button" class="button" aria-disabled="true">
+            {{ t().common.downloadResume }}
+          </button>
+        }
+
+        <a class="button button--quiet" [routerLink]="homePath()" fragment="contact">
+          {{ copy().actions.contact }}
+        </a>
+      </div>
+    </div>
+
+    <!--
+      The path a piece of work takes on its way to production. Real translated
+      text carries the meaning; the connectors are decoration and are hidden
+      from assistive technology.
+    -->
+    <div class="hero__aside">
+      <ol class="pipeline" [attr.aria-label]="copy().flow.label">
+        @for (step of copy().flow.steps; track step; let last = $last) {
+          <li class="pipeline__step">
+            <span class="pipeline__marker" aria-hidden="true">
+              <span class="pipeline__node"></span>
+              @if (!last) {
+                <span class="pipeline__line"></span>
+              }
+            </span>
+            <span class="pipeline__label">{{ step }}</span>
+          </li>
+        }
+      </ol>
+
+      <p class="hero__secondary">{{ copy().secondary }}</p>
+    </div>
+  </div>
+</section>

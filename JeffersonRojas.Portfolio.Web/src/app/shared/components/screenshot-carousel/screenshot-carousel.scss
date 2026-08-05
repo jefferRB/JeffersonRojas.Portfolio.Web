@@ -1,0 +1,169 @@
+@use 'mixins' as *;
+
+// `--shot-max-width` lets a host cap the whole gallery — image, caption and
+// controls together — rather than only the picture, which is what keeps the
+// chrome inside the media block instead of spanning the column behind it.
+.carousel {
+  // The control bar reflows on the width of this block, not of the window: the
+  // same gallery is 561px in one column and 352px in another at the very same
+  // viewport, and a media query cannot tell those apart.
+  container-type: inline-size;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+  max-width: var(--shot-max-width, none);
+}
+
+.carousel__stage {
+  min-width: 0;
+}
+
+// A quiet strip under the capture rather than arrows floating over it: the
+// screenshots are dense, and controls sitting on top of them would cover the
+// very content they are there to show.
+//
+// Three tracks with equal outer columns rather than `space-between`, so the
+// dots sit on the true centre line of the image above them instead of wherever
+// the arrows and the counter happen to leave them.
+.carousel__controls {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--space-sm);
+  align-items: center;
+
+  // In a narrow block the arrows and the dots together are wider than the row,
+  // so equal outer tracks become impossible and the dots get pushed off the
+  // centre line. Given their own row they land under the middle of the image,
+  // which is the point of centring them at all.
+  @container (max-width: 28rem) {
+    grid-template-columns: auto 1fr;
+    row-gap: var(--space-2xs);
+
+    .carousel__dots {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+.carousel__arrows {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-3xs);
+}
+
+.carousel__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: var(--text-md);
+  line-height: 1;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+
+  @include hover {
+    color: var(--color-text);
+    border-color: var(--color-border-strong);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.carousel__dots {
+  display: flex;
+  gap: var(--space-3xs);
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+// The visible mark is 6px; the button around it is 24px so it stays large
+// enough to hit on a touch screen without drawing a 24px target.
+.carousel__dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+
+  // The mark is the whole control — there is no glyph or label behind it — so
+  // it carries the 3:1 non-text contrast requirement on its own. A border
+  // colour would have been quieter and would also have been invisible.
+  &::after {
+    width: 0.375rem;
+    height: 0.375rem;
+    content: '';
+    background-color: var(--color-text-subtle);
+    border-radius: var(--radius-pill);
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+
+  @include hover {
+    &::after {
+      background-color: var(--color-text);
+    }
+  }
+
+  &.is-active::after {
+    background-color: var(--color-accent);
+    transform: scale(1.35);
+  }
+
+  &:focus-visible {
+    @include focus-ring(-2px);
+    border-radius: var(--radius-sm);
+  }
+
+  @include reduced-motion {
+    &::after {
+      transition: none;
+    }
+  }
+}
+
+// Decoration only — the position is announced through the live region, and the
+// dots already carry it visually. It is therefore the first thing to go when
+// the row runs out of width, rather than being allowed to squeeze and wrap.
+.carousel__position {
+  justify-self: end;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--color-text-subtle);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-wide);
+
+  @container (max-width: 28rem) {
+    display: none;
+  }
+}
+
+// Fetched, never shown. `display: none` would stop the request, which is the
+// entire point of these.
+.carousel__preload {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}

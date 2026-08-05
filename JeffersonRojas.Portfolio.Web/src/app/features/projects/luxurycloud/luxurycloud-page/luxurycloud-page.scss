@@ -1,0 +1,213 @@
+@use 'mixins' as *;
+
+// --- Case study hero ------------------------------------------------------
+
+.case-hero {
+  padding-block: var(--space-lg) var(--space-2xl);
+
+  @include from($bp-md) {
+    padding-block: var(--space-xl) var(--space-3xl);
+  }
+}
+
+.case-hero__back-arrow {
+  font-family: var(--font-mono);
+}
+
+// The back arrow points left, so it should travel left on hover.
+@media (hover: hover) and (pointer: fine) {
+  .case-hero__back:hover .case-hero__back-arrow,
+  .case-status__back:hover .case-hero__back-arrow {
+    transform: translateX(-3px);
+  }
+
+  @include reduced-motion {
+    .case-hero__back:hover .case-hero__back-arrow,
+    .case-status__back:hover .case-hero__back-arrow {
+      transform: none;
+    }
+  }
+}
+
+.case-hero__name {
+  margin-top: var(--space-lg);
+  font-size: var(--text-2xl);
+}
+
+.case-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md) var(--space-xl);
+  margin: var(--space-md) 0 0;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.case-hero__meta-value {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.case-hero__summary {
+  max-width: var(--measure);
+  margin-top: var(--space-lg);
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}
+
+// Standalone link, so it gets a comfortable target rather than the line box.
+.case-hero__site {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  margin-top: var(--space-md);
+  font-size: var(--text-sm);
+}
+
+// --- Shared section rhythm ------------------------------------------------
+
+.case-section__title {
+  max-width: var(--measure-ch);
+  font-size: var(--text-xl);
+}
+
+.case-lead {
+  margin-top: var(--space-sm);
+  font-size: var(--text-sm);
+}
+
+.case-prose {
+  margin-top: var(--space-md);
+}
+
+// --- My role --------------------------------------------------------------
+
+.role-groups {
+  display: grid;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+
+  @include from($bp-md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-xl);
+  }
+}
+
+.role-group {
+  padding-top: var(--space-2xs);
+  border-top: 1px solid var(--color-border);
+}
+
+.role-group__list {
+  padding: 0;
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+  list-style: none;
+}
+
+// --- Workflow stages ------------------------------------------------------
+
+.stages {
+  display: grid;
+  gap: var(--space-lg);
+  padding: 0;
+  margin: var(--space-lg) 0 0;
+  list-style: none;
+  counter-reset: stage;
+
+  @include from($bp-md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-xl);
+  }
+
+  // Four across on a wide page: two columns of a full-width container would
+  // run each description out to roughly a hundred characters a line.
+  @include from($bp-lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.stages__item {
+  padding-left: var(--space-md);
+  border-left: 2px solid var(--color-accent-line);
+}
+
+.stages__name {
+  font-size: var(--text-md);
+}
+
+.stages__description {
+  max-width: var(--measure-ch);
+  margin-top: var(--space-2xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}
+
+// --- Product scope --------------------------------------------------------
+
+.scope {
+  display: grid;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+
+  @include from($bp-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include from($bp-lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.scope__list {
+  padding: 0;
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+  list-style: none;
+}
+
+// --- What I learned -------------------------------------------------------
+
+.learned {
+  display: grid;
+  gap: 0;
+  padding: 0;
+  margin: var(--space-lg) 0 0;
+  list-style: none;
+}
+
+.learned__item {
+  // Small type inside a fixed-width box runs long; cap by characters instead.
+  max-width: var(--measure-ch);
+  padding-block: var(--space-sm);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+
+  &:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+// --- Figures --------------------------------------------------------------
+
+// --- Current status -------------------------------------------------------
+
+.case-status {
+  max-width: var(--measure);
+  margin-top: var(--space-2xs);
+  font-size: var(--text-md);
+  color: var(--color-text);
+}
+
+.case-status__back {
+  margin-top: var(--space-lg);
+}

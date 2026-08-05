@@ -1,0 +1,47 @@
+@use 'mixins' as *;
+
+.contact {
+  display: grid;
+  gap: var(--space-xl);
+
+  @include from($bp-lg) {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--space-3xl);
+    align-items: start;
+  }
+}
+
+.contact__message {
+  max-width: var(--measure);
+  margin-top: var(--space-md);
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}
+
+.contact__channels {
+  display: grid;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.contact__channel {
+  padding-block: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+
+  &:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+// Standalone links, so they get a comfortable target height rather than the
+// bare line box.
+.contact__value {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  font-size: var(--text-md);
+  word-break: break-word;
+}

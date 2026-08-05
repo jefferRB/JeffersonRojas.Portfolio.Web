@@ -1,0 +1,62 @@
+<figure class="shot">
+  @if (asset().available) {
+    <button
+      type="button"
+      class="shot__trigger"
+      [attr.aria-label]="t().screenshots.zoomLabel"
+      (click)="enlarge()"
+    >
+      <img
+        class="shot__image"
+        [src]="asset().src"
+        [attr.alt]="alt()"
+        [attr.width]="asset().width"
+        [attr.height]="asset().height"
+        [attr.loading]="priority() ? 'eager' : 'lazy'"
+        [attr.fetchpriority]="priority() ? 'high' : 'auto'"
+        decoding="async"
+      />
+    </button>
+  } @else {
+    <!--
+      No file committed yet. An empty, labelled slot is shown rather than a
+      broken image or an invented mockup.
+    -->
+    <div class="shot__slot" [style.aspect-ratio]="aspectRatio()" aria-hidden="true"></div>
+    <p class="shot__pending">{{ t().screenshots.pending }}</p>
+  }
+
+  <figcaption class="shot__caption">{{ caption() }}</figcaption>
+</figure>
+
+@if (asset().available) {
+  <dialog
+    #dialog
+    class="shot-dialog"
+    [attr.aria-label]="t().screenshots.dialogLabel"
+    (close)="onDialogClose()"
+    (click)="onDialogClick($event)"
+  >
+    <div class="shot-dialog__panel">
+      <div class="shot-dialog__bar">
+        <p class="shot-dialog__title">{{ caption() }}</p>
+        <button type="button" class="button button--secondary" (click)="close()">
+          {{ t().screenshots.close }}
+        </button>
+      </div>
+
+      @if (isOpen()) {
+        <div class="shot-dialog__scroll">
+          <img
+            class="shot-dialog__image"
+            [src]="asset().src"
+            [attr.alt]="alt()"
+            [attr.width]="asset().width"
+            [attr.height]="asset().height"
+            decoding="async"
+          />
+        </div>
+      }
+    </div>
+  </dialog>
+}

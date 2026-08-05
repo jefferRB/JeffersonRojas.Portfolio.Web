@@ -1,0 +1,120 @@
+@use 'mixins' as *;
+
+.marquee {
+  // The gap is a variable because the keyframe has to travel one track width
+  // *plus* one gap; hard-coding it in two places is how a marquee ends up with
+  // a visible stutter once per cycle.
+  --marquee-gap: var(--space-2xl);
+  // Slow on purpose. Fast enough to read as alive, slow enough that nobody
+  // waits for a name to come back around.
+  --marquee-duration: 50s;
+
+  display: flex;
+  gap: var(--marquee-gap);
+  overflow: hidden;
+  // Marks enter and leave rather than appearing at a hard edge.
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 3rem,
+    #000 calc(100% - 3rem),
+    transparent
+  );
+}
+
+.marquee__track {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--marquee-gap);
+  padding-block: var(--space-2xs);
+  padding-inline: 0;
+  margin: 0;
+  list-style: none;
+  animation: marquee-scroll var(--marquee-duration) linear infinite;
+
+  // Drawn inside the box: the frame clips, so an outline outside it would be
+  // cut off exactly where it matters.
+  &:focus-visible {
+    @include focus-ring(-2px);
+    border-radius: var(--radius-md);
+  }
+}
+
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(calc(-100% - var(--marquee-gap)));
+  }
+}
+
+// Nothing moves under a pointer that is reading it, or under a tab stop. This
+// is also the WCAG 2.2.2 mechanism: the movement never stops on its own, so
+// there has to be a way to stop it, and it must not be pointer-only.
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__item {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: var(--space-2xs);
+  align-items: center;
+  width: 5rem;
+}
+
+// The mark leads: it is more than twice the height of the name under it.
+.marquee__logo {
+  display: block;
+  width: 3.25rem;
+  height: 3.25rem;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.marquee__name {
+  font-size: var(--text-2xs);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+// --- Reduced motion -------------------------------------------------------
+
+// Declared twice on purpose. The media query is the promise — it holds with no
+// JavaScript at all — and the class is what lets the component add the tab stop
+// that makes the static row pannable.
+@mixin static-marquee {
+  // The remaining track scrolls itself rather than the frame around it: it is
+  // the element carrying the label and the tab stop, so it has to be the one
+  // the arrow keys move.
+  overflow: visible;
+  mask-image: none;
+
+  .marquee__track {
+    flex-shrink: 1;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    animation: none;
+  }
+
+  // The duplicate exists only to make movement continuous. Without movement it
+  // is just the same ten names again.
+  .marquee__track[aria-hidden='true'] {
+    display: none;
+  }
+}
+
+.marquee.is-static {
+  @include static-marquee;
+}
+
+@include reduced-motion {
+  .marquee {
+    @include static-marquee;
+  }
+}

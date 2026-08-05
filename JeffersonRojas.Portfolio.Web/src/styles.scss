@@ -1,0 +1,9 @@
+// Global stylesheet.
+// Partials live in src/styles/ and are resolved through
+// `stylePreprocessorOptions.includePaths` declared in angular.json.
+
+@use 'tokens';
+@use 'reset';
+@use 'base';
+@use 'a11y';
+@use 'ui';

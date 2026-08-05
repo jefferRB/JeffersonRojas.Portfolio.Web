@@ -1,0 +1,169 @@
+// Design tokens.
+//
+// Theming strategy: one single set of CSS custom properties is declared on
+// :root. Only the *values* change between themes — no stylesheet is duplicated.
+//
+// Resolution order:
+//   1. :root                                 -> light values (the default)
+//   2. @media (prefers-color-scheme: dark)   -> dark values when the document
+//      has no explicit [data-theme] yet (no JS, or "system" preference)
+//   3. :root[data-theme='light' | 'dark']    -> explicit user preference, wins
+
+@mixin light-palette {
+  color-scheme: light;
+
+  --color-bg: #fdfcfa;
+  --color-bg-subtle: #f6f5f2;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f2f1ed;
+  --color-border: #e3e0d9;
+  --color-border-strong: #c8c4bb;
+
+  --color-text: #1b1f27;
+  // Ink for text that is then dimmed by opacity. Starting from --color-text
+  // and fading to 60% lands at 4.35:1, just under AA; starting here clears it
+  // while looking identical at full strength.
+  --color-text-strong: #0e1218;
+  --color-text-muted: #5a616e;
+  --color-text-subtle: #6b7280;
+
+  --color-accent: #0a6eb4;
+  --color-accent-hover: #08578f;
+  --color-accent-contrast: #ffffff;
+  --color-accent-soft: rgb(10 110 180 / 8%);
+  --color-accent-line: rgb(10 110 180 / 35%);
+
+  --color-focus: #0a6eb4;
+  --color-grid-line: rgb(27 31 39 / 5%);
+  // Screenshot frame. Deliberately stronger than --color-border-strong: it is
+  // the only thing separating a product capture from the page, and the captures
+  // are themselves full-bleed UI. Meets 3:1 against the page background.
+  --color-screenshot-frame: #94918a;
+
+  --shadow-sm: 0 1px 2px rgb(20 24 32 / 6%);
+  --shadow-md: 0 2px 10px rgb(20 24 32 / 7%);
+}
+
+@mixin dark-palette {
+  color-scheme: dark;
+
+  --color-bg: #080d16;
+  --color-bg-subtle: #0b1220;
+  --color-surface: #101827;
+  --color-surface-muted: #0d1421;
+  --color-border: #1c2839;
+  --color-border-strong: #2c3a4f;
+
+  --color-text: #e9e6e0;
+  /** See the light palette: ink for text that opacity then dims. */
+  --color-text-strong: #f6f4ef;
+  --color-text-muted: #9aa5b6;
+  --color-text-subtle: #7b8698;
+
+  --color-accent: #5eb6f5;
+  --color-accent-hover: #8ccbfa;
+  --color-accent-contrast: #041019;
+  --color-accent-soft: rgb(94 182 245 / 12%);
+  --color-accent-line: rgb(94 182 245 / 38%);
+
+  --color-focus: #5eb6f5;
+  --color-grid-line: rgb(148 173 205 / 6%);
+  // The LuxuryCloud captures are dark dashboards on a near-black page, so the
+  // frame carries the whole separation. Meets 3:1 against the page background.
+  --color-screenshot-frame: #5c6775;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-md: 0 2px 10px rgb(0 0 0 / 45%);
+}
+
+:root {
+  @include light-palette;
+
+  // Typography — system stacks only, no font is downloaded.
+  --font-sans: system-ui, -apple-system, 'Segoe UI', roboto, 'Helvetica Neue', arial, sans-serif;
+  // Second family, deliberately scoped to technical labels (step numbers,
+  // eyebrows, tags) where a monospaced rhythm carries meaning.
+  --font-mono:
+    ui-monospace, 'SF Mono', sfmono-regular, menlo, consolas, 'Liberation Mono', monospace;
+
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --text-lg: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+  --text-2xl: clamp(1.875rem, 1.4rem + 1.9vw, 2.75rem);
+  --text-display: clamp(2.25rem, 1.5rem + 3.2vw, 4rem);
+  // The name. Large enough to carry the page, capped so it stays on one line
+  // from 375px upward instead of breaking into a stack of fragments.
+  --text-name: clamp(2.5rem, 1.6rem + 4.2vw, 5rem);
+
+  --leading-tight: 1.12;
+  --leading-snug: 1.28;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.7;
+
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.08em;
+
+  // Spacing scale
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 8rem;
+
+  // Radii — deliberately restrained.
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+
+  // Motion. Every transition stays inside the 150-300ms band.
+  --duration-press: 120ms;
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  // Strong ease-out: movement starts immediately, which is what makes an
+  // interaction feel like it responded rather than like it is catching up.
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  // For elements moving between two on-screen positions.
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-standard: var(--ease-out);
+
+  // Layout. Wide on purpose: no column is reserved for chrome any more, so the
+  // page takes nearly the whole viewport and each block caps its own text.
+  --layout-max: 96rem;
+  --measure: 40rem;
+  /** Reading measure that tracks font size instead of pixel width. */
+  --measure-ch: 68ch;
+  // Height of the fixed top-right controls. Sections offset their scroll
+  // position by it so an anchored heading never lands underneath them.
+  --header-height: 3.75rem;
+  // The floating section index: its own width, and the distance it keeps from
+  // the right edge. Past the layout maximum it tracks the content column
+  // instead of drifting further out with the viewport.
+  --index-width: 11rem;
+  --index-inset: max(var(--space-sm), calc(50vw - var(--layout-max) / 2 + var(--space-sm)));
+  --tap-target: 2.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    @include dark-palette;
+  }
+}
+
+:root[data-theme='light'] {
+  @include light-palette;
+}
+
+:root[data-theme='dark'] {
+  @include dark-palette;
+}

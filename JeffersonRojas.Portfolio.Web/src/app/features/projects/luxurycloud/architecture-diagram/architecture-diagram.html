@@ -1,0 +1,24 @@
+<div class="architecture">
+  <ol class="layers" [attr.aria-label]="copy().diagramLabel">
+    @for (layer of copy().layers; track layer.id; let last = $last) {
+      <li class="layers__item">
+        <div class="layers__box">
+          <p class="layers__name">{{ layer.name }}</p>
+          <p class="layers__note">{{ layer.note }}</p>
+        </div>
+        @if (!last) {
+          <span class="layers__arrow" aria-hidden="true"></span>
+        }
+      </li>
+    }
+  </ol>
+
+  <aside class="cross-cutting" aria-labelledby="cross-cutting-label">
+    <h3 class="field-label" id="cross-cutting-label">{{ copy().crossCutting.label }}</h3>
+    <ul class="cross-cutting__list">
+      @for (item of copy().crossCutting.items; track item) {
+        <li class="cross-cutting__item">{{ item }}</li>
+      }
+    </ul>
+  </aside>
+</div>

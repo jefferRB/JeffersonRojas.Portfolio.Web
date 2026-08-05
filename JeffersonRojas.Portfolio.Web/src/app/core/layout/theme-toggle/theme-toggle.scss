@@ -1,0 +1,28 @@
+@use 'mixins' as *;
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  // Narrowed by a host that needs a tighter cluster; the vertical target is
+  // never reduced.
+  width: var(--toggle-width, var(--tap-target));
+  height: var(--tap-target);
+  color: var(--color-text-muted);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+
+  @include hover {
+    color: var(--color-text);
+    background-color: var(--color-surface-muted);
+    border-color: var(--color-border);
+  }
+}
+
+.theme-toggle__icon {
+  flex-shrink: 0;
+}

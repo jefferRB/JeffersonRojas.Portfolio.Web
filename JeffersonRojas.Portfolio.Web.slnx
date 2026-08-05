@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="JeffersonRojas.Portfolio.Web/JeffersonRojas.Portfolio.Web.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>

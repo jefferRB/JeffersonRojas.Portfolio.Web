@@ -1,0 +1,92 @@
+<section class="section section--bordered" id="projects" aria-labelledby="projects-title">
+  <div class="container">
+    <header class="section__header">
+      <h2 class="section__title" id="projects-title">{{ copy().title }}</h2>
+      <p class="lede work__lead">{{ copy().lead }}</p>
+    </header>
+
+    <!--
+      One list, one column system. The featured project takes the whole top row
+      and then splits onto the same two tracks the pair below it sits on, so its
+      text lines up with NexoPOS and its gallery with PersonalOS.
+    -->
+    <ul class="projects">
+      <li class="projects__item projects__item--featured">
+        <article class="featured" aria-labelledby="project-luxurycloud">
+          <div class="featured__body">
+            <div class="featured__heading">
+              <h3 class="featured__name" id="project-luxurycloud">{{ copy().featured.name }}</h3>
+              <p class="status status--live">{{ copy().featured.status }}</p>
+            </div>
+
+            <p class="featured__role">
+              <span class="field-label">{{ t().common.roleLabel }}</span>
+              {{ copy().featured.role }}
+            </p>
+
+            <p class="featured__description">{{ copy().featured.description }}</p>
+
+            <div class="featured__stack">
+              <span class="field-label">{{ t().common.stackLabel }}</span>
+              <ul class="tech-list tech-list--primary">
+                @for (tech of copy().featured.primaryStack; track tech) {
+                  <li>{{ tech }}</li>
+                }
+              </ul>
+              <ul class="tech-list tech-list--secondary">
+                @for (tech of copy().featured.secondaryStack; track tech) {
+                  <li>{{ tech }}</li>
+                }
+              </ul>
+            </div>
+
+            <a class="action-link featured__link" [routerLink]="caseStudyPath()">
+              {{ t().common.viewCaseStudy }}
+              <span class="action-link__arrow" aria-hidden="true">-&gt;</span>
+            </a>
+          </div>
+
+          <!-- The product tour. Every published capture lives here and nowhere else. -->
+          <div class="featured__visual">
+            <app-screenshot-carousel
+              [slides]="luxurycloudSlides()"
+              [label]="copy().featured.name"
+              [priority]="true"
+            />
+          </div>
+        </article>
+      </li>
+
+      @for (project of copy().others; track project.id) {
+        <li class="projects__item">
+          <article [attr.aria-labelledby]="'project-' + project.id">
+            <div class="projects__heading">
+              <h3 class="projects__name" [id]="'project-' + project.id">{{ project.name }}</h3>
+              <p class="status">{{ project.status }}</p>
+            </div>
+
+            <p class="projects__description">{{ project.description }}</p>
+
+            <ul class="tech-list tech-list--secondary">
+              @for (tech of project.stack; track tech) {
+                <li>{{ tech }}</li>
+              }
+            </ul>
+
+            <!--
+              Sits inside the project it belongs to rather than in a media row
+              of its own, so there is never a question of which card it shows.
+              PersonalOS has no captures yet and gets none: an empty frame is
+              not a placeholder, it is a defect that has been styled.
+            -->
+            @if (project.id === 'nexopos' && nexoposSlides().length > 0) {
+              <div class="projects__visual">
+                <app-screenshot-carousel [slides]="nexoposSlides()" [label]="project.name" />
+              </div>
+            }
+          </article>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

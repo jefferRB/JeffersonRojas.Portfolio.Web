@@ -1,0 +1,22 @@
+.skip-link {
+  position: fixed;
+  top: var(--space-2xs);
+  left: var(--space-2xs);
+  z-index: 100;
+  padding: var(--space-2xs) var(--space-sm);
+  font-size: var(--text-sm);
+  font-weight: 550;
+  color: var(--color-accent-contrast);
+  text-decoration: none;
+  background-color: var(--color-accent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+
+  // Off-screen until focused, then it slides into place.
+  transform: translateY(calc(-100% - var(--space-sm)));
+  transition: transform var(--duration-fast) var(--ease-standard);
+
+  &:focus-visible {
+    transform: translateY(0);
+  }
+}

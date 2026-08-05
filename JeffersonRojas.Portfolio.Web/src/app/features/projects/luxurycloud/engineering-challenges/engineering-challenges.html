@@ -1,0 +1,20 @@
+<ol class="challenges">
+  @for (challenge of copy().items; track challenge.id) {
+    <li class="challenges__item">
+      <article [attr.aria-labelledby]="'challenge-' + challenge.id">
+        <h3 class="challenges__title" [id]="'challenge-' + challenge.id">{{ challenge.title }}</h3>
+
+        <dl class="challenges__detail">
+          <dt class="field-label">{{ copy().problemLabel }}</dt>
+          <dd class="challenges__text">{{ challenge.problem }}</dd>
+
+          <dt class="field-label">{{ copy().decisionLabel }}</dt>
+          <dd class="challenges__text">{{ challenge.decision }}</dd>
+
+          <dt class="field-label">{{ copy().verificationLabel }}</dt>
+          <dd class="challenges__text">{{ challenge.verification }}</dd>
+        </dl>
+      </article>
+    </li>
+  }
+</ol>

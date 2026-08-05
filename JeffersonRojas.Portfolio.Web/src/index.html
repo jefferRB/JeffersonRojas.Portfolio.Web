@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Jefferson Rojas - Software Engineer &amp; Product Builder</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="Jefferson Rojas turns real operational challenges into reliable software products, from discovery and architecture to development and production operations."
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!--
+      Theme bootstrap.
+      Runs before first paint so the document never flashes the wrong theme.
+      The storage key MUST stay in sync with THEME_STORAGE_KEY in
+      src/app/core/theme/theme.model.ts. If storage is unavailable the script
+      does nothing and the `prefers-color-scheme` fallback in styles.scss applies.
+    -->
+    <script>
+      (function () {
+        try {
+          var stored = window.localStorage.getItem('jr-portfolio-theme');
+          var preference = stored === 'light' || stored === 'dark' ? stored : 'system';
+          var theme =
+            preference === 'system'
+              ? window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+              : preference;
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch (error) {
+          /* Storage or matchMedia unavailable: the CSS media-query fallback applies. */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>

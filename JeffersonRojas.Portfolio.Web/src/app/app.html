@@ -1,0 +1,20 @@
+<app-skip-link />
+
+<!--
+  The only permanent chrome: language and theme pinned top-right, and a narrow
+  floating index of the current page's sections. Neither one reserves a column
+  or a band, so the content keeps the full width at every size.
+-->
+<app-view-controls />
+<app-section-index />
+
+<div class="shell">
+  <main id="main-content" tabindex="-1">
+    <router-outlet />
+  </main>
+
+  <app-site-footer />
+</div>
+
+<!-- Single polite live region for announcements such as a language change. -->
+<p class="visually-hidden" aria-live="polite" role="status">{{ announcement() }}</p>

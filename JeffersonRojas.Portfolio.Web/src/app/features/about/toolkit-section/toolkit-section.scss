@@ -1,0 +1,150 @@
+@use 'mixins' as *;
+
+.toolkit__lead {
+  margin-top: var(--space-sm);
+  font-size: var(--text-sm);
+}
+
+.toolkit__header {
+  margin-bottom: var(--space-xl);
+}
+
+.toolkit__block + .toolkit__block {
+  margin-top: var(--space-2xl);
+}
+
+// The marquee needs room to breathe under its label; it is a band of movement,
+// not a line of text.
+.toolkit__block app-tech-strip {
+  display: block;
+  margin-top: var(--space-sm);
+}
+
+// --- Skills grid ----------------------------------------------------------
+
+.skills {
+  display: grid;
+  gap: var(--space-sm);
+  padding: 0;
+  margin: var(--space-md) 0 0;
+  list-style: none;
+
+  @include from($bp-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include from($bp-md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  // Ten cards over five columns: two even rows, and each card stays narrow
+  // enough that its one line of description does not need a second one.
+  @include from($bp-xl) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+// Quiet by default. The reference this follows leans on large cards and a
+// strong glow; here the surface is barely lifted off the page and the accent
+// only appears in the icon, so the grid reads as part of the document rather
+// than as a panel dropped onto it.
+//
+// A column rather than a stack of margins: the icon and the title sit at the
+// top on a fixed rhythm and the description is pushed to the bottom, so cards
+// whose titles run to two lines still line their text up with the rest of the
+// row instead of drifting.
+.skills__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  height: 100%;
+  padding: var(--space-md) var(--space-md) var(--space-lg);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+
+  @include hover {
+    border-color: var(--color-accent-line);
+    // One soft ring, not a halo: enough to answer the pointer, not enough to
+    // turn the grid into a light show.
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+  }
+
+  @include reduced-motion {
+    transition: none;
+  }
+}
+
+.skills__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: var(--space-xs);
+  color: var(--color-accent);
+  background-color: var(--color-accent-soft);
+  border: 1px solid var(--color-accent-line);
+  border-radius: var(--radius-md);
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.skills__title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
+}
+
+// Bottom-aligned within the card, which is what keeps a row of cards reading as
+// one band of text rather than as five separate blocks.
+.skills__text {
+  margin-top: auto;
+  padding-top: var(--space-2xs);
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}
+
+// --- Closing note ---------------------------------------------------------
+
+.toolkit__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-lg);
+  margin-top: var(--space-2xl);
+  background-color: var(--color-surface-muted);
+  // Left rule instead of a full frame: it belongs to the section it closes.
+  border-left: 2px solid var(--color-accent-line);
+  border-radius: var(--radius-sm);
+}
+
+.toolkit__cta-body {
+  max-width: var(--measure);
+}
+
+.toolkit__cta-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.toolkit__cta-message {
+  margin-top: var(--space-3xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}

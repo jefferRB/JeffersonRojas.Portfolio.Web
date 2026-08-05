@@ -1,0 +1,50 @@
+@use 'mixins' as *;
+
+body {
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 560;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-display);
+}
+
+h2 {
+  font-size: var(--text-2xl);
+}
+
+h3 {
+  font-size: var(--text-lg);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:target {
+  scroll-margin-top: calc(var(--header-height) + var(--space-md));
+}
+
+::selection {
+  color: var(--color-accent-contrast);
+  background-color: var(--color-accent);
+}

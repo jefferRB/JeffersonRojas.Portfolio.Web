@@ -1,0 +1,158 @@
+@use 'mixins' as *;
+
+.work__lead {
+  margin-top: var(--space-sm);
+  font-size: var(--text-sm);
+}
+
+// --- The projects grid ----------------------------------------------------
+
+// One column system for the whole section. Two equal tracks: the featured
+// project spans both and then repeats them internally, which is what makes its
+// text land on the same line as NexoPOS and its gallery on the same line as
+// PersonalOS. Nothing here is sized by hand — the alignment falls out of the
+// two blocks sharing one set of tracks.
+.projects {
+  display: grid;
+  gap: var(--space-2xl);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  @include from($bp-md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.projects__item {
+  min-width: 0;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+// Secondary cards only. The featured article is a grid of its own, and turning
+// it into a column here is what collapses LuxuryCloud's two-track layout.
+.projects__item:not(.projects__item--featured) > article {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+// One of the two secondary projects has captures and the other does not, so
+// its column is the taller one and the grid stretches both cells to match.
+// Rather than leave the shorter card floating above a dead zone, its stack list
+// drops to the foot of the cell: the leftover height becomes one deliberate gap
+// inside the card instead of a hole at the end of the section, and the two
+// headings still start on the same line.
+.projects__item:not(:has(.projects__visual)) .tech-list--secondary {
+  margin-top: auto;
+  padding-top: var(--space-md);
+}
+
+.projects__item--featured {
+  // No rule of its own: it follows the section heading, which already carries
+  // one, and a second hairline that close reads as a stray line.
+  padding-top: 0;
+  border-top: 0;
+
+  @include from($bp-md) {
+    grid-column: 1 / -1;
+  }
+}
+
+// --- Featured project -----------------------------------------------------
+
+.featured {
+  display: grid;
+  gap: var(--space-lg);
+
+  // The same tracks and the same gap as the parent, so the two children line up
+  // with the row below rather than merely resembling it.
+  @include from($bp-xl) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-2xl);
+    align-items: start;
+  }
+}
+
+.featured__heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: baseline;
+}
+
+.featured__name {
+  font-size: var(--text-xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+.featured__role {
+  margin-top: var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.featured__description {
+  max-width: var(--measure);
+  margin-top: var(--space-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}
+
+.featured__stack {
+  margin-top: var(--space-md);
+
+  .tech-list--secondary {
+    margin-top: var(--space-2xs);
+  }
+}
+
+.featured__link {
+  margin-top: var(--space-lg);
+}
+
+.featured__body {
+  min-width: 0;
+  max-width: var(--measure);
+}
+
+// Holds the gallery. Its width is now the grid column, not a cap of its own:
+// that is what stops the captures from drifting toward the floating index.
+.featured__visual {
+  min-width: 0;
+}
+
+// --- Earlier-stage projects -----------------------------------------------
+
+.projects__heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-sm);
+  align-items: baseline;
+}
+
+.projects__name {
+  font-size: var(--text-md);
+  letter-spacing: var(--tracking-tight);
+}
+
+.projects__description {
+  max-width: var(--measure-ch);
+  margin-block: var(--space-2xs) var(--space-sm);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}
+
+// A gallery belonging to one of the secondary projects. Deliberately smaller
+// than the featured one — it is evidence for a smaller claim — and capped so
+// the column it hangs from does not tower over the one beside it.
+.projects__visual {
+  --shot-max-width: 22rem;
+
+  min-width: 0;
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
