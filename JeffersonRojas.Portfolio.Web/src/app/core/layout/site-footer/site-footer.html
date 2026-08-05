@@ -3,6 +3,24 @@
     <div>
       <p class="site-footer__name">{{ t().nav.brand }}</p>
       <p class="site-footer__role">{{ t().footer.role }}</p>
+
+      <!--
+        Part of the identity block rather than of the section list beside it:
+        that nav is labelled as this page's sections, and this one leaves the
+        site entirely.
+      -->
+      @if (contact.linkedinUrl !== null) {
+        <a
+          class="site-footer__link site-footer__social"
+          [href]="contact.linkedinUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.aria-label]="linkedinLabel()"
+        >
+          <app-linkedin-mark />
+          {{ t().common.linkedin }}
+        </a>
+      }
     </div>
 
     <nav [attr.aria-label]="t().footer.navLabel">

@@ -50,6 +50,13 @@
   }
 }
 
+.site-footer__social {
+  --linkedin-mark-size: 0.8125rem;
+
+  gap: var(--space-3xs);
+  margin-top: var(--space-2xs);
+}
+
 .site-footer__copyright {
   font-family: var(--font-mono);
   font-size: var(--text-xs);

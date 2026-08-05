@@ -1,13 +1,45 @@
 @use 'mixins' as *;
 
+// Three stable rows: the picture, a caption area of reserved height, and the
+// control bar a gallery projects into the last one. Fixing the middle row is
+// what stops the arrows, dots and counter moving when the capture in view
+// carries a one-line caption and the next carries a three-line one.
+//
+// Both reserved tracks are `minmax`, not flat heights. They hold the same space
+// for every capture, and content that genuinely needs more — an unusually long
+// caption, or a control bar that has wrapped to two lines in a narrow block —
+// grows the row instead of being cut off or spilling outside the figure. The
+// control bar's own height does not change from one capture to the next, so
+// this costs nothing in stability.
 .shot {
+  --shot-caption-height: 4.75rem;
+  --shot-controls-height: 2.75rem;
+
+  display: grid;
+  grid-template-rows:
+    auto
+    minmax(var(--shot-caption-height), auto)
+    minmax(var(--shot-controls-height), auto);
   margin: 0;
+
+  // Keyed to the width of the block, not of the window: the same sentence wraps
+  // to two lines in a wide column and four in a narrow one, and a gallery can be
+  // either at the same viewport. Only a container query can tell them apart.
+  @container (max-width: 28rem) {
+    --shot-caption-height: 6.5rem;
+  }
 }
 
 // The trigger is a plain wrapper: the image is the affordance, not a chrome.
+//
+// It owns a constant aspect ratio rather than taking one from whatever file is
+// in view, so every gallery on the page presents the same visual box and a
+// capture with a different native ratio is letterboxed inside it instead of
+// resizing the row around it.
 .shot__trigger {
   display: block;
   width: 100%;
+  aspect-ratio: var(--shot-aspect, 16 / 9);
   padding: 0;
   overflow: hidden;
   cursor: zoom-in;
@@ -21,13 +53,13 @@
   }
 }
 
-// The whole capture, always. `contain` is stated rather than relied on: with
-// `height: auto` it changes nothing today, and it is what stops a future height
-// constraint from silently cropping a table or a chart edge out of the frame.
+// The whole capture, always: it fills the box and `contain` fits it inside,
+// centred, at its own proportions. Never `cover`, which would crop a table or a
+// chart edge out of the frame to fill the corners.
 .shot__image {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -52,9 +84,12 @@
   letter-spacing: var(--tracking-wide);
 }
 
+// Sits in the reserved middle row, aligned to its top so a short caption and a
+// long one both start on the same line under the picture.
 .shot__caption {
+  align-self: start;
   max-width: var(--measure);
-  margin-top: var(--space-2xs);
+  padding-top: var(--space-2xs);
   font-size: var(--text-sm);
   line-height: var(--leading-relaxed);
   color: var(--color-text-subtle);

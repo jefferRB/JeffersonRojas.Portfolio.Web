@@ -4,54 +4,90 @@
       <div class="contact__statement">
         <h2 class="section__title" id="contact-title">{{ copy().title }}</h2>
         <p class="contact__message">{{ copy().message }}</p>
+        <p class="contact__location">{{ copy().location }}</p>
       </div>
 
-      <ul class="contact__channels">
-        <li class="contact__channel">
-          <span class="field-label">{{ copy().emailLabel }}</span>
-          <a class="link contact__value" [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+      <!--
+        One row per channel, each a single link across its whole width: the
+        eyebrow, the value and the trailing glyph are all inside the anchor, so
+        the target is the row rather than the few characters of the value.
+      -->
+      <ul class="channels">
+        <li class="channels__item">
+          <a class="channels__link" [href]="'mailto:' + contact.email">
+            <span class="channels__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="2.8" y="5" width="18.4" height="14" rx="2" />
+                <path d="m3.5 6.5 8.5 6 8.5-6" />
+              </svg>
+            </span>
+
+            <span class="channels__text">
+              <span class="field-label channels__eyebrow">{{ copy().emailLabel }}</span>
+              <span class="channels__value">{{ contact.email }}</span>
+            </span>
+
+            <span class="channels__arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M7 17 17 7M9 7h8v8" />
+              </svg>
+            </span>
+          </a>
         </li>
 
         @if (contact.linkedinUrl !== null) {
-          <li class="contact__channel">
-            <span class="field-label">{{ copy().linkedinLabel }}</span>
+          <li class="channels__item">
             <a
-              class="link contact__value"
+              class="channels__link"
               [href]="contact.linkedinUrl"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
+              [attr.aria-label]="linkedinLabel()"
             >
-              {{ copy().linkedinLabel }}
-              <span class="visually-hidden">({{ t().a11y.opensInNewTab }})</span>
-            </a>
-          </li>
-        }
+              <span class="channels__icon">
+                <app-linkedin-mark />
+              </span>
 
-        @if (contact.githubUrl !== null) {
-          <li class="contact__channel">
-            <span class="field-label">{{ copy().githubLabel }}</span>
-            <a
-              class="link contact__value"
-              [href]="contact.githubUrl"
-              target="_blank"
-              rel="noopener"
-            >
-              {{ copy().githubLabel }}
-              <span class="visually-hidden">({{ t().a11y.opensInNewTab }})</span>
+              <span class="channels__text">
+                <span class="field-label channels__eyebrow">{{ copy().linkedinLabel }}</span>
+                <span class="channels__value">{{ contact.linkedinName }}</span>
+              </span>
+
+              <span class="channels__arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M7 17 17 7M9 7h8v8" />
+                </svg>
+              </span>
             </a>
           </li>
         }
 
         @if (resume.available) {
-          <li class="contact__channel">
-            <span class="field-label">{{ t().common.resumeFormatLabel }}</span>
+          <li class="channels__item">
             <a
-              class="link contact__value"
+              class="channels__link"
               [href]="resume.path"
               [attr.aria-label]="resumeLabel()"
               download
             >
-              {{ t().common.downloadResume }}
+              <span class="channels__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z" />
+                  <path d="M14 3v5h5" />
+                </svg>
+              </span>
+
+              <span class="channels__text">
+                <span class="field-label channels__eyebrow">{{ t().common.downloadResume }}</span>
+                <span class="channels__value">{{ copy().resumeAction }}</span>
+              </span>
+
+              <!-- Down, not out: this one stays on the site. -->
+              <span class="channels__arrow channels__arrow--down" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 4v13M6.5 11.5 12 17l5.5-5.5M5 20h14" />
+                </svg>
+              </span>
             </a>
           </li>
         }

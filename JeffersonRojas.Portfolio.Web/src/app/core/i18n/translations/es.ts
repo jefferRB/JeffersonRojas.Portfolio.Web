@@ -31,6 +31,7 @@ export const ES_TRANSLATIONS: Translations = {
 
   common: {
     downloadResume: 'Descargar currículum',
+    linkedin: 'LinkedIn',
     resumeFormatLabel: 'PDF',
     backToPortfolio: 'Volver al portafolio',
     viewCaseStudy: 'Ver caso de estudio',
@@ -76,7 +77,6 @@ export const ES_TRANSLATIONS: Translations = {
       'Fundador e ingeniero detrás de un SaaS multi-tenant en producción, con experiencia práctica en C#, .NET, SQL Server, Angular, integraciones y operación en la nube.',
     actions: {
       viewWork: 'Ver mis proyectos',
-      contact: 'Contactarme',
     },
     flow: {
       label: 'Cómo el trabajo llega a producción',
@@ -271,9 +271,11 @@ export const ES_TRANSLATIONS: Translations = {
   contact: {
     title: 'Contacto',
     message:
-      'Estoy abierto a oportunidades de ingeniería de software donde pueda contribuir, aprender de un equipo experimentado y ayudar a construir productos confiables.',
+      'Estoy abierto a oportunidades de ingeniería de software donde pueda contribuir a productos confiables, aprender de equipos experimentados y seguir creciendo mediante retos de ingeniería con propósito.',
+    location: 'Ubicado en San José, Costa Rica',
     emailLabel: 'Correo',
     linkedinLabel: 'LinkedIn',
+    resumeAction: 'Descargar PDF',
     githubLabel: 'GitHub',
   },
 
@@ -507,82 +509,90 @@ export const ES_TRANSLATIONS: Translations = {
     },
     items: {
       dashboard: {
-        alt: 'Dashboard financiero: ingresos, egresos y ganancia del mes, además del desglose de ingresos por método de pago y el gráfico de ganancias mensuales.',
+        alt: 'Dashboard financiero de LuxuryCloud con indicadores de ingresos, egresos y rentabilidad.',
         caption:
-          'Para que el usuario esté consciente siempre del estado financiero en el que está.',
+          'Ofrece una vista clara de ingresos, egresos, rentabilidad, planilla y métodos de pago para comprender rápidamente la posición financiera del negocio.',
       },
       analytics: {
-        alt: 'Dashboard de información con gráficos de citas por mes, por semana y por funcionario, junto a los servicios más solicitados.',
-        caption: 'Para tomar decisiones operativas sobre cómo optimizar y mejorar el negocio.',
+        alt: 'Gráficos de LuxuryCloud con citas por mes, por semana y por colaborador.',
+        caption:
+          'Convierte la actividad del negocio en indicadores prácticos para apoyar decisiones operativas e identificar oportunidades de mejora.',
       },
       calendar: {
-        alt: 'Calendario mensual de citas con la cantidad de citas de cada día, junto a un panel que lista el día actual con el estado de confirmación de cada cita.',
+        alt: 'Calendario mensual de citas junto a la lista de las citas del día actual.',
         caption:
-          'Para ver cómo se va a operar el día y llevar seguimiento de cada cliente, incluyendo si está confirmado o si cancela por WhatsApp.',
+          'Organiza las próximas citas y permite dar seguimiento al estado de cada cliente, incluidas confirmaciones y cancelaciones recibidas por WhatsApp.',
       },
       'calendar-day': {
-        alt: 'Vista diaria del calendario ordenada en una columna por colaborador, con cada cita mostrando su hora, su cliente y su servicio, y un botón para cobrar.',
+        alt: 'Vista diaria de la agenda con una columna por colaborador y un botón para cobrar en cada cita.',
         caption:
-          'Vista de la agenda acomodada estratégicamente para facilitar el uso, mostrando la operación en columnas y permitiendo cobrar las citas desde ahí con precios cargados automáticamente.',
+          'Presenta la operación del día en columnas claras y permite cobrar las citas directamente con los precios de los servicios cargados automáticamente.',
       },
       income: {
-        alt: 'Módulo de ingresos que lista cada cobro con su fecha, cliente, funcionario, servicio, monto y método de pago, sobre totales separados en neto e impuestos.',
+        alt: 'Tabla de cobros registrados con cliente, colaborador, servicio, monto y método de pago.',
         caption:
-          'Para llevar el control de los cobros realizados, registrar cobros manualmente, incluir venta de productos y mantener el stock alineado con el conteo real.',
+          'Centraliza los cobros realizados y los registros manuales, incluidas las ventas de productos, mientras actualiza el inventario según el stock real.',
       },
       products: {
-        alt: 'Catálogo de productos con el precio, el stock y el estado de cada artículo, sobre los contadores de productos totales, bajo stock y valor del inventario.',
-        caption: 'Para estar al tanto del stock desde cualquier parte.',
+        alt: 'Catálogo de productos con precios, niveles de stock y contadores de bajo stock.',
+        caption:
+          'Permite consultar desde cualquier lugar la disponibilidad de productos y los niveles actuales de inventario.',
       },
       staff: {
-        alt: 'Tabla de funcionarios con el puesto de cada colaborador, su porcentaje de ganancia, su porcentaje de producto, la fecha de ingreso y su estado de acceso.',
+        alt: 'Tabla de colaboradores con su puesto, sus porcentajes de comisión y su estado de acceso.',
         caption:
-          'Se administra toda la información de los colaboradores y se configuran porcentajes y modos de trabajo, como empleado o alquiler de silla.',
+          'Centraliza la información de los colaboradores y permite configurar comisiones y modalidades de trabajo, como empleado o alquiler de silla.',
       },
       payroll: {
-        alt: 'Desglose de planilla por colaborador con producción, IVA incluido, monto del colaborador, total a pagar y saldo pendiente, con el cálculo escrito debajo.',
+        alt: 'Tarjetas de planilla por colaborador con producción, comisión y total a pagar.',
         caption:
-          'La plataforma genera automáticamente los pagos correspondientes de los colaboradores según la configuración y la operación registrada.',
+          'Calcula automáticamente los pagos de los colaboradores a partir de los servicios realizados, las reglas de comisión y la modalidad configurada.',
       },
       'public-site-editor': {
-        alt: 'Editor de la página pública con los espacios para subir logo, portada e imagen de ubicación, la galería del negocio y el almacenamiento utilizado.',
+        alt: 'Editor de la página pública con los espacios para subir logo, portada e imágenes de galería.',
         caption:
-          'Cada usuario puede tener su propia página pública agregando imágenes y textos. Está diseñada para que solo necesite cargar contenido y permita reservas en línea conectadas a la agenda, notificando por WhatsApp la aprobación.',
+          'Permite personalizar la página pública con imágenes y contenido, conectando las reservas en línea con la agenda y el flujo de aprobación por WhatsApp.',
       },
       'public-site': {
-        alt: 'Página pública de un negocio, con su propia marca, un botón para reservar, un enlace a servicios y accesos de contacto.',
-        caption: 'Así se ve la página pública de cada tenant desde la vista de los usuarios.',
+        alt: 'Página pública de un negocio con su marca y un botón para reservar.',
+        caption:
+          'Muestra la experiencia que recibe el cliente para conocer el negocio, consultar sus servicios e iniciar una reserva en línea.',
       },
 
       overview: {
-        alt: 'Resumen general de NexoPOS: ventas, tiquetes, productos con stock bajo, reposición sugerida y saldos consolidados, sobre una tarjeta por sucursal veterinaria.',
+        alt: 'Resumen de NexoPOS con indicadores de ventas, tiquetes y stock, y una tarjeta por sucursal veterinaria.',
         caption:
-          'Resumen general de la empresa para tomar decisiones rápidamente y operar con precisión.',
+          'Consolida los principales indicadores operativos de la empresa para tomar decisiones con mayor rapidez y operar con precisión.',
       },
       branches: {
-        alt: 'Vista de sucursales que lista cada sede veterinaria con su estado, sus existencias y los recursos asignados.',
-        caption: 'Permite ver detalladamente el estado y el inventario de cada sucursal.',
+        alt: 'Vista de sucursales de NexoPOS con el estado y el inventario de cada sede veterinaria.',
+        caption:
+          'Ofrece una vista detallada de cada sucursal, incluido su estado operativo y la posición individual de su inventario.',
       },
       inventory: {
-        alt: 'Inventario combinado de todas las sucursales, con la cantidad y el estado de cada artículo.',
-        caption: 'Muestra el inventario general combinado de todas las sucursales.',
+        alt: 'Inventario combinado de NexoPOS con la cantidad y la ubicación de cada artículo.',
+        caption:
+          'Combina el inventario de todas las sucursales en una sola vista, conservando la visibilidad sobre la ubicación de cada unidad.',
       },
       services: {
-        alt: 'Catálogo de servicios y paquetes, con cada entrada lista para llamarse durante una consulta.',
-        caption: 'Permite operar más rápido llamando y gestionando los servicios.',
+        alt: 'Catálogo de servicios y paquetes de NexoPOS.',
+        caption:
+          'Organiza el catálogo de servicios para que el personal pueda localizarlos, seleccionarlos y aplicarlos con mayor rapidez durante la operación diaria.',
       },
       'mobile-kits': {
-        alt: 'Vista de botiquines móviles con las unidades transferidas del inventario general al kit que el veterinario lleva a domicilio.',
+        alt: 'Botiquín móvil de NexoPOS con las unidades transferidas desde el inventario general.',
         caption:
-          'Permite transferir unidades del inventario general a un kit móvil que los veterinarios llevan a consultas a domicilio.',
+          'Permite transferir unidades de inventario a kits utilizados por los veterinarios en consultas a domicilio, manteniendo su trazabilidad fuera de la sucursal.',
       },
       billing: {
-        alt: 'Vista de facturación que lista los comprobantes recientes con su sucursal, cliente, emisor, tipo, método de pago, total y estado de aceptación.',
-        caption: 'Permite emitir las facturas y llevar el control de la operación comercial.',
+        alt: 'Lista de facturación de NexoPOS con los comprobantes recientes, su sucursal, tipo y total.',
+        caption:
+          'Facilita la emisión de facturas y centraliza la información comercial necesaria para completar y dar seguimiento a cada transacción.',
       },
       restocking: {
-        alt: 'Vista de reposición con los artículos por reponer y las cantidades sugeridas según el consumo.',
-        caption: 'Permite poner el inventario al día de forma más fácil y ordenada.',
+        alt: 'Vista de reposición de NexoPOS con los artículos por reponer y sus cantidades sugeridas.',
+        caption:
+          'Simplifica la reposición al identificar las unidades necesarias y organizar el proceso para devolver el inventario a los niveles esperados.',
       },
     },
   },

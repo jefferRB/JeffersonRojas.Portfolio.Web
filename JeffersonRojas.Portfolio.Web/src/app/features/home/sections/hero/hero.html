@@ -39,9 +39,23 @@
           </button>
         }
 
-        <a class="button button--quiet" [routerLink]="homePath()" fragment="contact">
-          {{ copy().actions.contact }}
-        </a>
+        <!--
+          Third, and outlined rather than filled: it is a way to reach me, not
+          the thing this page is asking for. The brand's own blue would pull
+          harder than the primary action beside it.
+        -->
+        @if (contact.linkedinUrl !== null) {
+          <a
+            class="button button--secondary hero__linkedin"
+            [href]="contact.linkedinUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="linkedinLabel()"
+          >
+            <app-linkedin-mark />
+            {{ t().common.linkedin }}
+          </a>
+        }
       </div>
     </div>
 

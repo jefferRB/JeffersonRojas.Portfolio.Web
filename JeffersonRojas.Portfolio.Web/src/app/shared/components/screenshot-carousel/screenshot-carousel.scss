@@ -1,29 +1,30 @@
 @use 'mixins' as *;
 
-// `--shot-max-width` lets a host cap the whole gallery — image, caption and
-// controls together — rather than only the picture, which is what keeps the
-// chrome inside the media block instead of spanning the column behind it.
+// One gallery, one set of dimensions. Nothing here is sized per host: a gallery
+// is as wide as the grid column it is dropped into, and every other measurement
+// — the frame, the aspect ratio, the caption, the control row — comes from the
+// shared component, so two galleries on the same page cannot drift apart.
+//
+// `--shot-max-width` remains available for a host that genuinely needs a cap,
+// and bounds the whole block rather than only the picture.
 .carousel {
   // The control bar reflows on the width of this block, not of the window: the
-  // same gallery is 561px in one column and 352px in another at the very same
-  // viewport, and a media query cannot tell those apart.
+  // same gallery can be one width in one column and another elsewhere at the
+  // very same viewport, and a media query cannot tell those apart.
   container-type: inline-size;
 
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
   min-width: 0;
   max-width: var(--shot-max-width, none);
-}
-
-.carousel__stage {
-  min-width: 0;
 }
 
 // A quiet strip under the capture rather than arrows floating over it: the
 // screenshots are dense, and controls sitting on top of them would cover the
 // very content they are there to show.
+//
+// It occupies the figure's third row, which has a height of its own, so the
+// arrows stay on one line, the dots stay on the centre of the picture and the
+// counter stays hard right, from one capture to the next.
 //
 // Three tracks with equal outer columns rather than `space-between`, so the
 // dots sit on the true centre line of the image above them instead of wherever
@@ -37,7 +38,8 @@
   // In a narrow block the arrows and the dots together are wider than the row,
   // so equal outer tracks become impossible and the dots get pushed off the
   // centre line. Given their own row they land under the middle of the image,
-  // which is the point of centring them at all.
+  // which is the point of centring them at all — and the row it needs is
+  // taller than the one a single line needs.
   @container (max-width: 28rem) {
     grid-template-columns: auto 1fr;
     row-gap: var(--space-2xs);

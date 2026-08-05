@@ -31,6 +31,7 @@ export const EN_TRANSLATIONS: Translations = {
 
   common: {
     downloadResume: 'Download résumé',
+    linkedin: 'LinkedIn',
     resumeFormatLabel: 'PDF',
     backToPortfolio: 'Back to portfolio',
     viewCaseStudy: 'View case study',
@@ -76,7 +77,6 @@ export const EN_TRANSLATIONS: Translations = {
       'Founder and engineer behind a production multi-tenant SaaS, with hands-on experience in C#, .NET, SQL Server, Angular, integrations and cloud operations.',
     actions: {
       viewWork: 'View my work',
-      contact: 'Contact me',
     },
     flow: {
       label: 'How work reaches production',
@@ -269,9 +269,11 @@ export const EN_TRANSLATIONS: Translations = {
   contact: {
     title: 'Contact',
     message:
-      'I am open to software engineering opportunities where I can contribute, learn from an experienced team and help build reliable products.',
+      'I’m open to software engineering opportunities where I can contribute to reliable products, learn from experienced teams and continue growing through meaningful engineering challenges.',
+    location: 'Based in San José, Costa Rica',
     emailLabel: 'Email',
     linkedinLabel: 'LinkedIn',
+    resumeAction: 'Download PDF',
     githubLabel: 'GitHub',
   },
 
@@ -492,82 +494,90 @@ export const EN_TRANSLATIONS: Translations = {
     },
     items: {
       dashboard: {
-        alt: 'Financial dashboard: income, expenses and profit for the month, plus income split by payment method and a chart of profit per month.',
-        caption: 'So the user is always aware of the current financial state of the business.',
+        alt: 'LuxuryCloud financial dashboard with income, expense and profitability indicators.',
+        caption:
+          'Provides a clear view of income, expenses, profitability, payroll and payment methods, helping owners understand the financial position of the business at a glance.',
       },
       analytics: {
-        alt: 'Information dashboard with charts of appointments per month, per week and per collaborator, alongside the most requested services.',
+        alt: 'LuxuryCloud charts of appointments per month, per week and per collaborator.',
         caption:
-          'Used to make operational decisions about how to optimize and improve the business.',
+          'Turns business activity into practical indicators that support operational decisions and reveal opportunities for improvement.',
       },
       calendar: {
-        alt: 'Monthly appointment calendar showing how many appointments fall on each day, beside a panel listing the current day with each appointment confirmation state.',
+        alt: 'Monthly appointment calendar beside the list of the current day’s appointments.',
         caption:
-          'Shows how the day will run and helps track each client, including whether they are confirmed or if they cancel through WhatsApp.',
+          'Organizes upcoming appointments and tracks each client’s status, including confirmations and cancellations received through WhatsApp.',
       },
       'calendar-day': {
-        alt: 'Day view of the calendar laid out as one column per collaborator, with each appointment showing its time, client and service, and a charge button.',
+        alt: 'Day view of the agenda with one column per collaborator and a charge button on each appointment.',
         caption:
-          'A day view arranged strategically for ease of use, showing operations in columns and allowing appointments to be charged directly with automatically loaded prices.',
+          'Presents the day in clear operational columns and allows appointments to be charged directly using automatically loaded service prices.',
       },
       income: {
-        alt: 'Income module listing each charge with its date, client, collaborator, service, amount and payment method, above totals split into net and tax.',
+        alt: 'Table of recorded charges with client, collaborator, service, amount and payment method.',
         caption:
-          'Used to keep full control of recorded payments, register manual charges, include product sales and keep stock aligned with the real count.',
+          'Centralizes completed charges and manual payments, including product sales, while updating inventory to reflect actual stock.',
       },
       products: {
-        alt: 'Product catalogue listing each item with its price, stock level and status, above counters for total products, low stock and inventory value.',
-        caption: 'Used to stay aware of current stock from anywhere.',
+        alt: 'Product catalogue with prices, stock levels and low-stock counters.',
+        caption:
+          'Provides an up-to-date view of product availability and stock levels from anywhere.',
       },
       staff: {
-        alt: 'Staff table listing each collaborator with their role, commission percentage, product percentage, start date and access state.',
+        alt: 'Staff table with each collaborator’s role, commission percentages and access state.',
         caption:
-          'All collaborator information is managed here, including percentages and work models such as employee or chair rental.',
+          'Centralizes collaborator information and configures commissions and work models, including employees and chair-rental arrangements.',
       },
       payroll: {
-        alt: 'Payroll breakdown per collaborator showing production, VAT included, commission amount, total to pay and pending balance, with the calculation written out underneath.',
+        alt: 'Payroll cards per collaborator with production, commission and total to pay.',
         caption:
-          'The platform automatically generates the corresponding collaborator payments based on configuration and recorded operations.',
+          'Automatically calculates collaborator payments from completed services, commission rules and the working arrangement configured for each person.',
       },
       'public-site-editor': {
-        alt: 'Public page editor with upload slots for the logo, cover and location images, a business gallery and the storage used so far.',
+        alt: 'Public page editor with upload slots for the logo, cover and gallery images.',
         caption:
-          'Each user can have their own public page by adding images and text. It is designed so they mainly need to upload content, while online booking stays connected to the schedule and approval is notified through WhatsApp.',
+          'Lets each business customize its public page with images and content, while connecting online booking directly to the calendar and WhatsApp approval workflow.',
       },
       'public-site': {
-        alt: 'Public page of a business, with its own branding, a booking button, a services link and contact shortcuts.',
-        caption: 'This is how each tenant’s public page looks from the user’s perspective.',
+        alt: 'Public page of a business with its branding and a booking button.',
+        caption:
+          'Shows the customer-facing experience where visitors can explore the business, review its services and start an online booking.',
       },
 
       overview: {
-        alt: 'NexoPOS overview: sales, tickets, low stock, suggested restocking and consolidated balances, above a card per veterinary branch.',
+        alt: 'NexoPOS overview with sales, tickets and stock indicators, and a card per veterinary branch.',
         caption:
-          'A general business summary that helps users make decisions quickly and operate with precision.',
+          'Consolidates the company’s main operational indicators so management can make faster decisions and operate with greater precision.',
       },
       branches: {
-        alt: 'Branch view listing each veterinary location with its status, stock and assigned resources.',
-        caption: 'Shows the status and inventory of each branch in detail.',
+        alt: 'NexoPOS branch view with the status and inventory of each veterinary location.',
+        caption:
+          'Provides a detailed view of each branch, including its operational status and individual inventory position.',
       },
       inventory: {
-        alt: 'Combined inventory across every branch, listing each item with its quantity and status.',
-        caption: 'Displays the combined general inventory across all branches.',
+        alt: 'NexoPOS combined inventory listing each item with its quantity and location.',
+        caption:
+          'Combines inventory information from every branch into a single view while preserving visibility into where each unit is located.',
       },
       services: {
-        alt: 'Services and packages catalogue, with each entry ready to be called up during a consultation.',
-        caption: 'Helps users operate faster by calling up and managing services.',
+        alt: 'NexoPOS catalogue of services and packages.',
+        caption:
+          'Creates a structured service catalog that allows staff to locate, select and apply services more efficiently during daily operations.',
       },
       'mobile-kits': {
-        alt: 'Mobile kit view showing the units transferred out of general inventory into a veterinarian home-visit kit.',
+        alt: 'NexoPOS mobile kit with the units transferred out of general inventory.',
         caption:
-          'Allows units from general inventory to be transferred into a mobile kit used by veterinarians during home visits.',
+          'Transfers inventory units into mobile kits used by veterinarians during home visits, preserving traceability outside the branch.',
       },
       billing: {
-        alt: 'Billing view listing recent receipts with their branch, client, issuer, type, payment method, total and acceptance state.',
-        caption: 'Allows invoices to be issued and supports day-to-day commercial operations.',
+        alt: 'NexoPOS billing list with recent receipts, their branch, type and total.',
+        caption:
+          'Supports invoice creation and centralizes the commercial information required to complete and track each transaction.',
       },
       restocking: {
-        alt: 'Restocking view listing the items to replenish, with suggested quantities based on consumption.',
-        caption: 'Makes it easier to bring inventory up to date in an organized way.',
+        alt: 'NexoPOS restocking view with the items to replenish and their suggested quantities.',
+        caption:
+          'Simplifies inventory replenishment by identifying required units and organizing the process of bringing stock back to expected levels.',
       },
     },
   },

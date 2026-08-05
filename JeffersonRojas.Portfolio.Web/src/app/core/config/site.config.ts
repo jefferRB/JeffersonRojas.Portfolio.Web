@@ -16,17 +16,24 @@ export interface ContactConfig {
   readonly email: string;
   /** `null` means "not published yet"; the UI then renders no link at all. */
   readonly linkedinUrl: string | null;
+  /** How the profile is shown to a reader. Not a translated string: it is a name. */
+  readonly linkedinName: string;
   readonly githubUrl: string | null;
 }
 
 /**
+ * The single source for every contact channel. The hero button, the contact
+ * rows and the footer all read the profile URL from here — it is written once,
+ * so it cannot drift between the three places that link to it.
+ *
  * Only channels that actually exist are listed. The phone number on the résumé
  * is deliberately not published on the page; the PDF carries it for whoever
  * downloads it.
  */
 export const CONTACT_CONFIG: ContactConfig = {
   email: '05jeffer03@gmail.com',
-  linkedinUrl: null,
+  linkedinUrl: 'https://www.linkedin.com/in/efferson-rojas-brizuela/',
+  linkedinName: 'Jefferson Rojas Brizuela',
   githubUrl: null,
 };
 

@@ -130,23 +130,82 @@ describe('HomePage sections', () => {
   });
 
   describe('Contact', () => {
-    it('publishes the email and the résumé download', async () => {
-      const element = await renderHome();
+    function rows(element: HTMLElement): HTMLAnchorElement[] {
+      return Array.from(element.querySelectorAll<HTMLAnchorElement>('.channels__link'));
+    }
 
-      expect(element.querySelector(`a[href="mailto:${CONTACT_CONFIG.email}"]`)).not.toBeNull();
-      expect(element.querySelector(`a[href="${RESUME_CONFIG.path}"]`)).not.toBeNull();
-      expect(element.textContent).toContain(EN_TRANSLATIONS.contact.message);
+    it('offers exactly three channels: email, LinkedIn and the résumé', async () => {
+      const element = await renderHome();
+      const hrefs = rows(element).map((row) => row.getAttribute('href'));
+
+      expect(hrefs).toEqual([
+        `mailto:${CONTACT_CONFIG.email}`,
+        CONTACT_CONFIG.linkedinUrl,
+        RESUME_CONFIG.path,
+      ]);
     });
 
-    it('renders no social link while no URL is configured', async () => {
+    it('shows the statement and where I am, with no invented status', async () => {
+      const element = await renderHome();
+      const text = element.textContent ?? '';
+
+      expect(text).toContain(EN_TRANSLATIONS.contact.message);
+      expect(text).toContain(EN_TRANSLATIONS.contact.location);
+      expect(text).not.toMatch(/available now|online now/i);
+    });
+
+    it('labels every row rather than leaving the icon to carry it', async () => {
+      const element = await renderHome();
+      const eyebrows = Array.from(element.querySelectorAll('.channels__eyebrow')).map((node) =>
+        node.textContent?.trim(),
+      );
+
+      expect(eyebrows).toEqual([
+        EN_TRANSLATIONS.contact.emailLabel,
+        EN_TRANSLATIONS.contact.linkedinLabel,
+        EN_TRANSLATIONS.common.downloadResume,
+      ]);
+    });
+
+    it('makes the whole row the target, not just the value', async () => {
       const element = await renderHome();
 
-      // Guards against shipping a dead link: the config has no LinkedIn or
-      // GitHub URL, so neither anchor may exist.
-      expect(CONTACT_CONFIG.linkedinUrl).toBeNull();
+      for (const row of rows(element)) {
+        expect(row.querySelector('.channels__icon')).not.toBeNull();
+        expect(row.querySelector('.channels__value')).not.toBeNull();
+        expect(row.querySelector('.channels__arrow')).not.toBeNull();
+      }
+    });
+
+    it('names the LinkedIn profile and keeps the résumé download attribute', async () => {
+      const element = await renderHome();
+      const [, linkedin, resume] = rows(element);
+
+      expect(linkedin.textContent).toContain(CONTACT_CONFIG.linkedinName);
+      expect(resume.hasAttribute('download')).toBe(true);
+      expect(resume.textContent).toContain(EN_TRANSLATIONS.contact.resumeAction);
+    });
+
+    it('translates the whole section', async () => {
+      const element = await renderHome('/es');
+      const text = element.textContent ?? '';
+
+      expect(text).toContain(ES_TRANSLATIONS.contact.message);
+      expect(text).toContain(ES_TRANSLATIONS.contact.location);
+      expect(text).toContain(ES_TRANSLATIONS.contact.emailLabel);
+      expect(text).toContain(ES_TRANSLATIONS.contact.resumeAction);
+    });
+
+    it('renders no anchor for a channel that has no URL', async () => {
+      const element = await renderHome();
+
+      // GitHub is still unconfigured, and an unconfigured channel must produce
+      // no link at all rather than an empty one.
       expect(CONTACT_CONFIG.githubUrl).toBeNull();
-      expect(element.querySelector('a[href*="linkedin"]')).toBeNull();
       expect(element.querySelector('a[href*="github"]')).toBeNull();
+      expect(Array.from(element.querySelectorAll('a')).every((a) => a.getAttribute('href'))).toBe(
+        true,
+      );
     });
 
     it('does not publish the phone number from the résumé', async () => {
@@ -154,6 +213,85 @@ describe('HomePage sections', () => {
 
       expect(element.textContent).not.toMatch(/\+506/);
       expect(element.querySelector('a[href^="tel:"]')).toBeNull();
+    });
+  });
+
+  describe('LinkedIn', () => {
+    function linkedinLinks(element: HTMLElement): HTMLAnchorElement[] {
+      return Array.from(
+        element.querySelectorAll<HTMLAnchorElement>(`a[href="${CONTACT_CONFIG.linkedinUrl}"]`),
+      );
+    }
+
+    it('offers the profile as the hero’s third action', async () => {
+      const element = await renderHome();
+      const actions = Array.from(element.querySelectorAll('.hero__actions > *'));
+
+      expect(actions.length).toBe(3);
+      expect(actions[0].textContent).toContain(EN_TRANSLATIONS.hero.actions.viewWork);
+      expect(actions[1].textContent).toContain(EN_TRANSLATIONS.common.downloadResume);
+      expect(actions[2].textContent).toContain(EN_TRANSLATIONS.common.linkedin);
+      expect(actions[2].getAttribute('href')).toBe(CONTACT_CONFIG.linkedinUrl);
+    });
+
+    it('no longer offers a contact link as a hero action', async () => {
+      const element = await renderHome();
+      const actions = element.querySelector('.hero__actions');
+
+      expect(actions?.querySelector('a[href$="#contact"]')).toBeNull();
+      expect(actions?.textContent).not.toMatch(/contact me/i);
+    });
+
+    it('reads the URL from configuration in every place that links to it', async () => {
+      const element = await renderHome();
+
+      // Hero, contact row and footer: three links, one source.
+      expect(linkedinLinks(element).length).toBeGreaterThanOrEqual(2);
+      expect(CONTACT_CONFIG.linkedinUrl).toMatch(/^https:\/\/www\.linkedin\.com\/in\//);
+    });
+
+    it('opens in a new tab without handing over the opener', async () => {
+      const element = await renderHome();
+
+      for (const link of linkedinLinks(element)) {
+        expect(link.getAttribute('target')).toBe('_blank');
+        expect(link.getAttribute('rel')).toBe('noopener noreferrer');
+      }
+    });
+
+    it('names each link and says it leaves the page', async () => {
+      const element = await renderHome();
+
+      for (const link of linkedinLinks(element)) {
+        const name = link.getAttribute('aria-label') ?? '';
+        expect(name).toContain(EN_TRANSLATIONS.common.linkedin);
+        expect(name).toContain(EN_TRANSLATIONS.a11y.opensInNewTab);
+      }
+    });
+
+    it('draws the mark inline and hides it from assistive technology', async () => {
+      const element = await renderHome();
+
+      for (const link of linkedinLinks(element)) {
+        const svg = link.querySelector('app-linkedin-mark svg');
+        expect(svg).not.toBeNull();
+        expect(svg?.getAttribute('aria-hidden')).toBe('true');
+      }
+    });
+
+    it('keeps the word beside the mark, in both languages', async () => {
+      for (const [url, dictionary] of [
+        ['/en', EN_TRANSLATIONS],
+        ['/es', ES_TRANSLATIONS],
+      ] as const) {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({ providers: [provideRouter(routes)] });
+
+        const element = await renderHome(url);
+        for (const link of linkedinLinks(element)) {
+          expect(link.textContent, url).toContain(dictionary.common.linkedin);
+        }
+      }
     });
   });
 

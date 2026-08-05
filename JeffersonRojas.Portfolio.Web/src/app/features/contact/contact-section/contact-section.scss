@@ -19,7 +19,20 @@
   color: var(--color-text-muted);
 }
 
-.contact__channels {
+// A fact, quietly stated. Deliberately not a status badge: nothing here claims
+// to be live, available now, or online.
+.contact__location {
+  margin-top: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+// --- Channels -------------------------------------------------------------
+
+.channels {
   display: grid;
   gap: 0;
   padding: 0;
@@ -27,8 +40,7 @@
   list-style: none;
 }
 
-.contact__channel {
-  padding-block: var(--space-sm);
+.channels__item {
   border-bottom: 1px solid var(--color-border);
 
   &:first-child {
@@ -36,12 +48,90 @@
   }
 }
 
-// Standalone links, so they get a comfortable target height rather than the
-// bare line box.
-.contact__value {
-  display: inline-flex;
+// The row is the target, not the few characters of the value inside it.
+.channels__link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-sm);
   align-items: center;
-  min-height: 2.25rem;
-  font-size: var(--text-md);
+  min-height: var(--tap-target);
+  padding-block: var(--space-sm);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+
+  @include hover {
+    color: var(--color-accent);
+
+    // The only thing that moves. The row itself stays put, so a column of
+    // rows never shifts under the pointer.
+    .channels__arrow {
+      transform: translate(2px, -2px);
+    }
+
+    .channels__arrow--down {
+      transform: translateY(2px);
+    }
+  }
+
+  &:focus-visible {
+    @include focus-ring(-2px);
+    border-radius: var(--radius-sm);
+  }
+}
+
+.channels__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-text-muted);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  svg {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.channels__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.channels__eyebrow {
+  margin-bottom: 0;
+}
+
+.channels__value {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
   word-break: break-word;
+}
+
+.channels__arrow {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--color-text-subtle);
+  transition: transform var(--duration-fast) var(--ease-out);
+
+  svg {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @include reduced-motion {
+    transition: none;
+  }
 }

@@ -85,6 +85,8 @@ export interface AccessibilityTranslations {
 
 export interface CommonTranslations {
   readonly downloadResume: string;
+  /** The network's own name, identical in both languages. */
+  readonly linkedin: string;
   /** Appended to the résumé link's accessible name, e.g. "PDF". */
   readonly resumeFormatLabel: string;
   readonly backToPortfolio: string;
@@ -137,7 +139,6 @@ export interface HeroTranslations {
 
 export interface HeroActionsTranslations {
   readonly viewWork: string;
-  readonly contact: string;
 }
 
 export interface HeroFlowTranslations {
@@ -258,8 +259,12 @@ export interface ToolkitCtaCopy {
 export interface ContactTranslations {
   readonly title: string;
   readonly message: string;
+  /** A quiet second line under the message. Not a status, just a fact. */
+  readonly location: string;
   readonly emailLabel: string;
   readonly linkedinLabel: string;
+  /** What the résumé row does, e.g. "Download PDF". */
+  readonly resumeAction: string;
   readonly githubLabel: string;
 }
 

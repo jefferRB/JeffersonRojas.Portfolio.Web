@@ -27,6 +27,14 @@
   }
 
   <figcaption class="shot__caption">{{ caption() }}</figcaption>
+
+  <!--
+    Third row. A host that owns controls for this figure — a gallery's arrows,
+    dots and counter — projects them here, and the caption row above reserves a
+    fixed height, so they hold their position from one capture to the next
+    whatever the caption's length. Empty for a lone screenshot.
+  -->
+  <ng-content />
 </figure>
 
 @if (asset().available) {

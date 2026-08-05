@@ -5,56 +5,59 @@
   [attr.aria-label]="label()"
   (keydown)="onKeydown($event)"
 >
-  <div class="carousel__stage">
-    <app-screenshot
-      [asset]="active().asset"
-      [alt]="active().alt"
-      [caption]="active().caption"
-      [priority]="priority()"
-    />
-  </div>
-
-  <div class="carousel__controls">
-    <div class="carousel__arrows">
-      <button
-        type="button"
-        class="carousel__arrow"
-        [attr.aria-label]="copy().previous"
-        (click)="previous()"
-      >
-        <span aria-hidden="true">&lsaquo;</span>
-      </button>
-      <button
-        type="button"
-        class="carousel__arrow"
-        [attr.aria-label]="copy().next"
-        (click)="next()"
-      >
-        <span aria-hidden="true">&rsaquo;</span>
-      </button>
-    </div>
-
+  <app-screenshot
+    [asset]="active().asset"
+    [alt]="active().alt"
+    [caption]="active().caption"
+    [priority]="priority()"
+  >
     <!--
-      Real buttons rather than dots drawn on a container: each one is a
-      separate destination and has to be reachable and named on its own.
+      Projected into the figure, between the picture and its caption: that is
+      what keeps the controls in one place no matter how long the caption of the
+      capture in view happens to be.
     -->
-    <ul class="carousel__dots">
-      @for (slide of slides(); track slide.asset.id; let i = $index) {
-        <li>
-          <button
-            type="button"
-            class="carousel__dot"
-            [class.is-active]="i === index()"
-            [attr.aria-label]="dotLabel(i)"
-            [attr.aria-current]="i === index() ? 'true' : null"
-            (click)="goTo(i)"
-          ></button>
-        </li>
-      }
-    </ul>
+    <div class="carousel__controls">
+      <div class="carousel__arrows">
+        <button
+          type="button"
+          class="carousel__arrow"
+          [attr.aria-label]="copy().previous"
+          (click)="previous()"
+        >
+          <span aria-hidden="true">&lsaquo;</span>
+        </button>
+        <button
+          type="button"
+          class="carousel__arrow"
+          [attr.aria-label]="copy().next"
+          (click)="next()"
+        >
+          <span aria-hidden="true">&rsaquo;</span>
+        </button>
+      </div>
 
-    <p class="carousel__position" aria-hidden="true">{{ index() + 1 }} / {{ count() }}</p>
-  </div>
+      <!--
+        Real buttons rather than dots drawn on a container: each one is a
+        separate destination and has to be reachable and named on its own.
+      -->
+      <ul class="carousel__dots">
+        @for (slide of slides(); track slide.asset.id; let i = $index) {
+          <li>
+            <button
+              type="button"
+              class="carousel__dot"
+              [class.is-active]="i === index()"
+              [attr.aria-label]="dotLabel(i)"
+              [attr.aria-current]="i === index() ? 'true' : null"
+              (click)="goTo(i)"
+            ></button>
+          </li>
+        }
+      </ul>
+
+      <p class="carousel__position" aria-hidden="true">{{ index() + 1 }} / {{ count() }}</p>
+    </div>
+  </app-screenshot>
 
   <!-- The visible counter is a fragment; screen readers get the whole sentence. -->
   <p class="visually-hidden" aria-live="polite">{{ liveMessage() }}</p>
