@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portfolio",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start"],
+      "port": 56596,
+      "url": "http://127.0.0.1:56596"
+    }
+  ]
+}

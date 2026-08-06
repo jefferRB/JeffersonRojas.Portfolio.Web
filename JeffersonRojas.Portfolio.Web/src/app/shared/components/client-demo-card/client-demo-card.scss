@@ -1,0 +1,176 @@
+@use 'mixins' as *;
+
+// The same card the toolkit grid uses — surface, hairline, one soft ring on
+// hover. A recorded demo is evidence like a capture is evidence, so it is
+// framed like one rather than given a treatment of its own.
+.demo-card {
+  min-width: 0;
+  overflow: hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+
+  @include hover {
+    border-color: var(--color-accent-line);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+  }
+
+  @include reduced-motion {
+    transition: none;
+  }
+}
+
+// The ratio is fixed here rather than taken from the file, so the block holds
+// its height from the first paint and the still cannot shift the page when it
+// lands. The image carries its intrinsic size as well, for the same reason.
+.demo-card__preview {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: var(--color-surface-muted);
+  border-bottom: 1px solid var(--color-border);
+
+  &:focus-visible {
+    @include focus-ring(-2px);
+  }
+}
+
+.demo-card__thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Small, centred, and borrowed from the rest of the page rather than from
+// YouTube: the accent ring the skill icons use, at the size of a control.
+.demo-card__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-text);
+  background-color: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  transform: translate(-50%, -50%);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  @include reduced-motion {
+    transition: none;
+  }
+}
+
+.demo-card__preview:focus-visible .demo-card__play {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .demo-card:hover .demo-card__play {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+}
+
+.demo-card__body {
+  padding: var(--space-md);
+}
+
+.demo-card__title {
+  font-size: var(--text-md);
+  text-wrap: balance;
+}
+
+.demo-card__description {
+  max-width: var(--measure-ch);
+  margin-top: var(--space-2xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}
+
+// A button wearing the link's clothes: it opens a player rather than navigating,
+// so it must not be an anchor, but it belongs to the same family as the other
+// standalone actions on the page.
+.demo-card__action {
+  padding: 0;
+  margin-top: var(--space-sm);
+}
+
+// --- Player ---------------------------------------------------------------
+
+// Bounded by height as well as width: at 96vw on a short viewport the 16:9
+// frame would run past the bottom of the window.
+.demo-dialog {
+  width: min(96vw, 64rem, calc(80dvh * 16 / 9));
+  max-width: none;
+  padding: 0;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+
+  &::backdrop {
+    background-color: rgb(0 0 0 / 70%);
+  }
+
+  &[open] {
+    animation: demo-dialog-in var(--duration-base) var(--ease-out);
+  }
+
+  @include reduced-motion {
+    &[open] {
+      animation: none;
+    }
+  }
+}
+
+@keyframes demo-dialog-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+.demo-dialog__bar {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2xs) var(--space-2xs) var(--space-2xs) var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.demo-dialog__title {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.demo-dialog__frame {
+  aspect-ratio: 16 / 9;
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}

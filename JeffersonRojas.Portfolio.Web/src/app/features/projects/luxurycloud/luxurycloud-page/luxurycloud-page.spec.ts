@@ -5,7 +5,7 @@ import { RouterTestingHarness } from '@angular/router/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { routes } from '../../../../app.routes';
-import { SITE_CONFIG } from '../../../../core/config/site.config';
+import { CLIENT_DEMOS, SITE_CONFIG } from '../../../../core/config/site.config';
 import { LocaleService } from '../../../../core/i18n/locale.service';
 import { EN_TRANSLATIONS } from '../../../../core/i18n/translations/en';
 import { ES_TRANSLATIONS } from '../../../../core/i18n/translations/es';
@@ -115,8 +115,22 @@ describe('LuxuryCloud case study', () => {
       const element = harness.routeNativeElement as HTMLElement;
 
       expect(element.querySelectorAll('app-screenshot').length).toBe(0);
-      expect(element.querySelectorAll('img').length).toBe(0);
-      expect(element.querySelectorAll('dialog').length).toBe(0);
+      expect(element.querySelectorAll('img[src^="/images/projects"]').length).toBe(0);
+    });
+
+    // The one exception, and the reason the rule above is written by source
+    // rather than by tag: the demo's still frame is not a capture of the
+    // interface, it is the cover of a recording the reader can choose to play.
+    it('carries exactly one image, the demo still, and one dialog, its player', async () => {
+      const harness = await RouterTestingHarness.create(EN_URL);
+      const element = harness.routeNativeElement as HTMLElement;
+
+      const images = Array.from(element.querySelectorAll('img'));
+      expect(images.length).toBe(1);
+      expect(images[0].getAttribute('src')).toContain('i.ytimg.com');
+
+      expect(element.querySelectorAll('dialog').length).toBe(1);
+      expect(element.querySelectorAll('.demo-dialog').length).toBe(1);
     });
 
     it('keeps the whole technical argument, in both languages', async () => {
@@ -148,6 +162,58 @@ describe('LuxuryCloud case study', () => {
       const element = harness.routeNativeElement as HTMLElement;
 
       expect(element.querySelector('app-architecture-diagram')).not.toBeNull();
+    });
+  });
+
+  describe('client-facing demo', () => {
+    it('sits inside Context, beside the text rather than in a section of its own', async () => {
+      const harness = await RouterTestingHarness.create(EN_URL);
+      const element = harness.routeNativeElement as HTMLElement;
+
+      expect(element.querySelectorAll('app-client-demo-card').length).toBe(1);
+      expect(element.querySelector('#context app-client-demo-card')).not.toBeNull();
+      // The Context copy on the left is untouched by the split.
+      expect(element.querySelector('#context .case-prose p')?.textContent).toBe(
+        EN_TRANSLATIONS.caseStudies.luxurycloud.context.paragraphs[0],
+      );
+    });
+
+    it('loads no player: the page never contacts YouTube on its own', async () => {
+      const harness = await RouterTestingHarness.create(EN_URL);
+      const element = harness.routeNativeElement as HTMLElement;
+
+      expect(element.querySelector('iframe')).toBeNull();
+    });
+
+    it('opens the player, on the no-cookie domain, only once asked', async () => {
+      const harness = await RouterTestingHarness.create(EN_URL);
+      const element = harness.routeNativeElement as HTMLElement;
+
+      element.querySelector<HTMLButtonElement>('.demo-card__preview')?.click();
+      await harness.fixture.whenStable();
+
+      expect(element.querySelector('iframe')?.getAttribute('src')).toContain(
+        `https://www.youtube-nocookie.com/embed/${CLIENT_DEMOS.luxurycloud.videoId}`,
+      );
+    });
+
+    it('describes the recording in both languages', async () => {
+      for (const [url, dictionary] of [
+        [EN_URL, EN_TRANSLATIONS],
+        [ES_URL, ES_TRANSLATIONS],
+      ] as const) {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({ providers: [provideRouter(routes)] });
+
+        const harness = await RouterTestingHarness.create(url);
+        const text = (harness.routeNativeElement as HTMLElement).textContent ?? '';
+        const demo = dictionary.caseStudies.luxurycloud.demo;
+
+        expect(text, `label in ${url}`).toContain(demo.label);
+        expect(text, `title in ${url}`).toContain(demo.title);
+        expect(text, `description in ${url}`).toContain(demo.description);
+        expect(text, `action in ${url}`).toContain(demo.action);
+      }
     });
   });
 

@@ -24,7 +24,20 @@ export interface Translations {
   readonly contact: ContactTranslations;
   readonly caseStudies: CaseStudyTranslations;
   readonly screenshots: ScreenshotTranslations;
+  readonly videoDemo: VideoDemoTranslations;
   readonly footer: FooterTranslations;
+}
+
+/**
+ * Chrome for the recorded-demo card and its player.
+ *
+ * Only the labels the component owns live here. What a particular recording
+ * says about itself belongs to the project it documents, not to this group.
+ */
+export interface VideoDemoTranslations {
+  /** Accessible name of the still-frame trigger. `{title}` is the video's own. */
+  readonly play: string;
+  readonly close: string;
 }
 
 export interface ScreenshotTranslations {
@@ -176,6 +189,14 @@ export interface FeaturedProjectCopy {
   readonly description: string;
   readonly primaryStack: readonly string[];
   readonly secondaryStack: readonly string[];
+  /** The recorded demo, offered beside the case study rather than instead of it. */
+  readonly demo: DemoLinkCopy;
+}
+
+export interface DemoLinkCopy {
+  readonly label: string;
+  /** Full accessible name: it names the destination and says the tab is new. */
+  readonly ariaLabel: string;
 }
 
 export interface ProjectCopy {
@@ -280,6 +301,8 @@ export interface LuxuryCloudCaseStudy {
   readonly role: string;
   readonly summary: string;
   readonly context: ProseSectionCopy;
+  /** Sits beside the Context text, in the space its reading measure leaves. */
+  readonly demo: ClientDemoCopy;
   readonly myRole: RoleSectionCopy;
   readonly flow: FlowSectionCopy;
   readonly scope: GroupedSectionCopy;
@@ -292,6 +315,16 @@ export interface LuxuryCloudCaseStudy {
 export interface ProseSectionCopy {
   readonly title: string;
   readonly paragraphs: readonly string[];
+}
+
+/** What one recorded demo says about itself. */
+export interface ClientDemoCopy {
+  readonly label: string;
+  readonly title: string;
+  readonly description: string;
+  readonly action: string;
+  /** Describes the still frame for readers who cannot see it. */
+  readonly thumbnailAlt: string;
 }
 
 export interface RoleSectionCopy {

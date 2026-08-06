@@ -154,6 +154,37 @@ carrying `aria-current`, and a polite live region that announces the new
 position together with the caption. The visible `3 / 8` counter is
 `aria-hidden` — it is a fragment, and the live region says the whole sentence.
 
+## The recorded client demo
+
+One video, hosted on YouTube, offered in two places: a quiet secondary link on
+the LuxuryCloud card in Projects, and `app-client-demo-card` beside the Context
+text of the case study. `CLIENT_DEMOS` in `site.config.ts` holds the id and the
+public watch URL; the embed and both thumbnail URLs are derived from the id, so
+nothing repeats the video's address.
+
+The card contacts YouTube for exactly one thing before a click: the still frame,
+lazily, with intrinsic dimensions and a fixed 16:9 box so it cannot shift the
+page. No iframe, no player script. `maxresdefault` does not exist for every
+upload, so a failed load falls back to `hqdefault`, which always does.
+
+Playback mounts the frame inside a native `<dialog>` — the same element the
+screenshot enlarger uses, and for the same reasons: the focus trap, Escape and
+background inerting come from the platform. Three things are added on top:
+
+- The frame is inside an `@if` on the open state, so a closed player is not a
+  hidden video still holding a connection.
+- Focus restoration is explicit. The card has two triggers, and the reader has
+  to land back on the one they pressed, not on whichever the platform saw last.
+- The document is locked against scrolling while the player is open, and the
+  teardown runs directly from the close button rather than waiting for the
+  queued `close` event. It is idempotent, so the event arriving afterwards — or
+  Escape, or the backdrop — costs nothing.
+
+The embed is on `youtube-nocookie.com`, `allow` is narrowed to what playback
+needs, and `autoplay=1` is safe because the frame only ever exists inside the
+click that asked for it. The id is matched against a pattern before it is
+interpolated into the URL the sanitizer is told to trust.
+
 ## The technology marquee
 
 The toolkit's technology row loops continuously. The mechanism is two identical

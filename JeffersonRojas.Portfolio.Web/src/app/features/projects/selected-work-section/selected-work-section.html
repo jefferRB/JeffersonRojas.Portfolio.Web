@@ -40,10 +40,28 @@
               </ul>
             </div>
 
-            <a class="action-link featured__link" [routerLink]="caseStudyPath()">
-              {{ t().common.viewCaseStudy }}
-              <span class="action-link__arrow" aria-hidden="true">-&gt;</span>
-            </a>
+            <!--
+              The case study stays the action; the recording is offered beside
+              it, quieter and smaller, for a reader who would rather be shown
+              than read. Beside on a wide card, underneath once it wraps.
+            -->
+            <div class="featured__actions">
+              <a class="action-link" [routerLink]="caseStudyPath()">
+                {{ t().common.viewCaseStudy }}
+                <span class="action-link__arrow" aria-hidden="true">-&gt;</span>
+              </a>
+
+              <a
+                class="featured__demo"
+                [href]="demoUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                [attr.aria-label]="copy().featured.demo.ariaLabel"
+              >
+                {{ copy().featured.demo.label }}
+                <span class="featured__demo-arrow" aria-hidden="true">&#8599;</span>
+              </a>
+            </div>
           </div>
 
           <!-- The product tour. Every published capture lives here and nowhere else. -->

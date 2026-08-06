@@ -58,3 +58,24 @@ export const RESUME_CONFIG: ResumeConfig = {
 export const PROJECT_LINKS = {
   luxurycloud: 'https://luxurycloud.app',
 } as const;
+
+export interface ClientDemoConfig {
+  /** YouTube id. Everything else — embed, thumbnails — is derived from it. */
+  readonly videoId: string;
+  /** Public watch page, for the secondary link on the project card. */
+  readonly watchUrl: string;
+}
+
+/**
+ * Recorded product demos, hosted on YouTube.
+ *
+ * The id is enough to build both the privacy-enhanced embed and the still
+ * frames, so only it and the public watch URL are configured here. Nothing on
+ * the site talks to YouTube until a reader asks for playback.
+ */
+export const CLIENT_DEMOS: Readonly<Record<'luxurycloud', ClientDemoConfig>> = {
+  luxurycloud: {
+    videoId: '_QuuepUXQlo',
+    watchUrl: 'https://www.youtube.com/watch?v=_QuuepUXQlo',
+  },
+};

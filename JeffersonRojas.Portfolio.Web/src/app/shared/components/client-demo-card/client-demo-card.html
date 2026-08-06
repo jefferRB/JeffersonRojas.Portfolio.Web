@@ -1,0 +1,74 @@
+<div class="demo-card">
+  <!--
+    The still is the affordance, exactly as the screenshot frame is: a button
+    wrapping the image rather than a play chrome laid over a picture.
+  -->
+  <button
+    type="button"
+    class="demo-card__preview"
+    [attr.aria-label]="playLabel()"
+    (click)="openPlayer($event)"
+  >
+    <img
+      class="demo-card__thumbnail"
+      [src]="thumbnailSrc()"
+      [attr.alt]="thumbnailAlt()"
+      width="1280"
+      height="720"
+      loading="lazy"
+      decoding="async"
+      (error)="onThumbnailError()"
+    />
+
+    <span class="demo-card__play" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+        <path d="M9.5 7.2 16.8 12l-7.3 4.8z" fill="currentColor" />
+      </svg>
+    </span>
+  </button>
+
+  <div class="demo-card__body">
+    <p class="field-label">{{ label() }}</p>
+    <h3 class="demo-card__title">{{ title() }}</h3>
+    <p class="demo-card__description">{{ description() }}</p>
+
+    <button type="button" class="action-link demo-card__action" (click)="openPlayer($event)">
+      {{ actionLabel() }}
+      <span class="action-link__arrow" aria-hidden="true">-&gt;</span>
+    </button>
+  </div>
+</div>
+
+<!--
+  The player. The frame is rendered only while the dialog is open, so the page
+  costs nothing before the click and nothing keeps running after the close.
+-->
+<dialog
+  #dialog
+  class="demo-dialog"
+  [attr.aria-label]="title()"
+  (close)="onDialogClose()"
+  (click)="onDialogClick($event)"
+>
+  <div class="demo-dialog__panel">
+    <div class="demo-dialog__bar">
+      <p class="demo-dialog__title">{{ title() }}</p>
+      <button type="button" class="button button--secondary" (click)="close()">
+        {{ t().videoDemo.close }}
+      </button>
+    </div>
+
+    @if (isOpen() && embedUrl() !== null) {
+      <div class="demo-dialog__frame">
+        <!-- Only what playback needs. No clipboard, no sensors, no sharing. -->
+        <iframe
+          [src]="embedUrl()"
+          [title]="title()"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      </div>
+    }
+  </div>
+</dialog>

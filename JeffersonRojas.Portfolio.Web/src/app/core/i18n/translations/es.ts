@@ -147,6 +147,11 @@ export const ES_TRANSLATIONS: Translations = {
         'Webhooks',
         'Background workers',
       ],
+      demo: {
+        label: 'Ver demostración para clientes - español',
+        ariaLabel:
+          'Ver la demostración de LuxuryCloud para clientes, grabada en español, en YouTube (se abre en una pestaña nueva)',
+      },
     },
     others: [
       {
@@ -294,6 +299,15 @@ export const ES_TRANSLATIONS: Translations = {
           'Ese esquema funcionaba bien hasta que había que repetirlo. Cada colaborador nuevo significaba enseñar las reglas otra vez. Cada pregunta sobre el mes anterior significaba reconstruir la respuesta a mano. El proceso no estaba mal; simplemente no tenía dónde vivir salvo en las personas y en los archivos.',
           'Lo que llegó a mis manos fue una solicitud para gestionar clientes, además de hojas de cálculo y una serie de conversaciones sobre cómo transcurre realmente el día. Mi trabajo fue sentarme con ese material, seguir los flujos hasta sus límites y decidir qué debía representar el software antes de escribir una línea.',
         ],
+      },
+
+      demo: {
+        label: 'Demostración para clientes',
+        title: 'Cómo presenté el producto a clientes potenciales en Costa Rica',
+        description:
+          'Este recorrido grabado se compartió como una primera introducción al producto para clientes potenciales. La demostración muestra cómo comuniqué el valor de la plataforma, expliqué sus flujos principales y transformé un sistema operativo complejo en una historia de producto clara.',
+        action: 'Ver demostración del producto',
+        thumbnailAlt: 'Primer fotograma de la demostración grabada del producto LuxuryCloud.',
       },
 
       myRole: {
@@ -595,6 +609,11 @@ export const ES_TRANSLATIONS: Translations = {
           'Simplifica la reposición al identificar las unidades necesarias y organizar el proceso para devolver el inventario a los niveles esperados.',
       },
     },
+  },
+
+  videoDemo: {
+    play: 'Reproducir el video: {title}',
+    close: 'Cerrar',
   },
 
   footer: {

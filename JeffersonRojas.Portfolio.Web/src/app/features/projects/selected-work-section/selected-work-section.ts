@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { RouterLink } from '@angular/router';
 
 import { PROJECT_GALLERIES } from '../../../core/config/screenshots.config';
+import { CLIENT_DEMOS } from '../../../core/config/site.config';
 import { localizedPath } from '../../../core/i18n/locale';
 import { TranslationService } from '../../../core/i18n/translation.service';
 import {
@@ -34,6 +35,9 @@ export class SelectedWorkSection {
 
   protected readonly t = this.translations.t;
   protected readonly copy = computed(() => this.translations.t().work);
+
+  /** The public watch page. The card links out rather than embedding a player. */
+  protected readonly demoUrl = CLIENT_DEMOS.luxurycloud.watchUrl;
 
   protected readonly luxurycloudSlides = this.slidesFor(PROJECT_GALLERIES.luxurycloud);
   protected readonly nexoposSlides = this.slidesFor(PROJECT_GALLERIES.nexopos);

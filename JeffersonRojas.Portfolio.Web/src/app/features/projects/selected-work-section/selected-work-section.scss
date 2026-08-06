@@ -108,8 +108,46 @@
   }
 }
 
-.featured__link {
+// Side by side while there is room, stacked the moment there is not. The gap is
+// deliberately wide: the two are not a button group, they are one action and an
+// aside that happens to sit next to it.
+.featured__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-lg);
+  align-items: center;
   margin-top: var(--space-lg);
+}
+
+// Secondary by size and weight rather than by colour: it is still the page's
+// accent, only spoken more quietly than the case-study link beside it.
+//
+// The rule is drawn on the text, not on the box: a standalone link needs a
+// target taller than its line, and a border on the box would leave the line
+// floating well under the words.
+.featured__demo {
+  display: inline-flex;
+  gap: var(--space-3xs);
+  align-items: center;
+  min-height: 2.25rem;
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent-line);
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--duration-fast) var(--ease-out);
+
+  @include hover {
+    text-decoration-color: var(--color-accent);
+  }
+
+  @include reduced-motion {
+    transition: none;
+  }
+}
+
+.featured__demo-arrow {
+  font-size: var(--text-2xs);
 }
 
 .featured__body {

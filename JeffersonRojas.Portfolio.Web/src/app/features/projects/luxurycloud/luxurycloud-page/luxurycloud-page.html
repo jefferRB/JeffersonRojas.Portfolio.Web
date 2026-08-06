@@ -35,10 +35,29 @@
       <h2 class="section__title case-section__title" id="context-title">
         {{ copy().context.title }}
       </h2>
-      <div class="prose case-prose">
-        @for (paragraph of copy().context.paragraphs; track paragraph) {
-          <p>{{ paragraph }}</p>
-        }
+
+      <!--
+        The prose caps itself at the reading measure, which on a wide page left
+        the right-hand half of this section empty. The recorded demo goes there:
+        it is the same story told to a client, so it belongs beside the account
+        of where the product came from rather than in a section of its own.
+      -->
+      <div class="context-layout">
+        <div class="prose case-prose">
+          @for (paragraph of copy().context.paragraphs; track paragraph) {
+            <p>{{ paragraph }}</p>
+          }
+        </div>
+
+        <app-client-demo-card
+          class="context-demo"
+          [videoId]="demo.videoId"
+          [label]="copy().demo.label"
+          [title]="copy().demo.title"
+          [description]="copy().demo.description"
+          [actionLabel]="copy().demo.action"
+          [thumbnailAlt]="copy().demo.thumbnailAlt"
+        />
       </div>
     </div>
   </section>

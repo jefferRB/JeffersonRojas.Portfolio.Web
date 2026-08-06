@@ -82,6 +82,38 @@
   margin-top: var(--space-md);
 }
 
+// --- Context --------------------------------------------------------------
+
+// Two tracks from the same breakpoint the featured project splits at, and for
+// the same reason: below it the floating index has already taken its column and
+// there is no second column left to give. Stacked until then, so the demo lands
+// under the text on a phone and on a tablet rather than being squeezed beside it.
+.context-layout {
+  display: grid;
+  gap: var(--space-lg);
+
+  @include from($bp-xl) {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    column-gap: var(--space-2xl);
+    align-items: start;
+  }
+}
+
+// Capped on its own below the split, so the card never runs the full width of a
+// tablet: at that size it would read as a banner rather than as an aside.
+.context-demo {
+  display: block;
+  min-width: 0;
+  max-width: var(--measure);
+
+  @include from($bp-xl) {
+    max-width: none;
+    // The prose above starts on the same line; without this the card would sit
+    // against the section heading instead.
+    margin-top: var(--space-md);
+  }
+}
+
 // --- My role --------------------------------------------------------------
 
 .role-groups {

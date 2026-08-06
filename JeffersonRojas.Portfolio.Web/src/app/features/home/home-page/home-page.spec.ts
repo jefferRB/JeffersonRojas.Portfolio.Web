@@ -9,7 +9,7 @@ import {
   PROJECT_GALLERIES,
 } from '../../../core/config/screenshots.config';
 import { ScreenshotGallery } from '../../../shared/models/screenshot';
-import { CONTACT_CONFIG, RESUME_CONFIG } from '../../../core/config/site.config';
+import { CLIENT_DEMOS, CONTACT_CONFIG, RESUME_CONFIG } from '../../../core/config/site.config';
 import { TECHNOLOGIES } from '../../../core/config/technologies.config';
 import { EN_TRANSLATIONS } from '../../../core/i18n/translations/en';
 import { ES_TRANSLATIONS } from '../../../core/i18n/translations/es';
@@ -313,6 +313,60 @@ describe('HomePage sections', () => {
       await harness.fixture.whenStable();
 
       expect(TestBed.inject(Router).url).toBe('/en/projects/luxurycloud');
+    });
+
+    describe('the recorded client demo', () => {
+      function demoLink(element: HTMLElement): HTMLAnchorElement | null {
+        return element.querySelector<HTMLAnchorElement>('.featured__demo');
+      }
+
+      it('is offered on LuxuryCloud and on no other card', async () => {
+        const element = await renderHome();
+
+        expect(element.querySelectorAll('.featured__demo').length).toBe(1);
+        expect(demoLink(element)?.getAttribute('href')).toBe(CLIENT_DEMOS.luxurycloud.watchUrl);
+        expect(demoLink(element)?.textContent).toContain(EN_TRANSLATIONS.work.featured.demo.label);
+      });
+
+      it('stays secondary to the case study, which keeps the primary action', async () => {
+        const element = await renderHome();
+        const actions = Array.from(element.querySelectorAll('.featured__actions > a'));
+
+        // Order is the hierarchy: the case study is read first, by everyone.
+        expect(actions.length).toBe(2);
+        expect(actions[0].textContent).toContain(EN_TRANSLATIONS.common.viewCaseStudy);
+        expect(actions[0].classList.contains('action-link')).toBe(true);
+        expect(actions[1].classList.contains('action-link')).toBe(false);
+      });
+
+      it('opens in a new tab without handing over the opener', async () => {
+        const element = await renderHome();
+
+        expect(demoLink(element)?.getAttribute('target')).toBe('_blank');
+        expect(demoLink(element)?.getAttribute('rel')).toBe('noopener noreferrer');
+      });
+
+      it('says where it goes and that the tab is new', async () => {
+        const element = await renderHome();
+        const name = demoLink(element)?.getAttribute('aria-label') ?? '';
+
+        expect(name).toContain('YouTube');
+        expect(name).toContain(EN_TRANSLATIONS.a11y.opensInNewTab);
+      });
+
+      it('embeds nothing in the card itself', async () => {
+        const element = await renderHome();
+
+        expect(element.querySelector('iframe')).toBeNull();
+      });
+
+      it('translates both the label and its accessible name', async () => {
+        const element = await renderHome('/es');
+        const copy = ES_TRANSLATIONS.work.featured.demo;
+
+        expect(demoLink(element)?.textContent).toContain(copy.label);
+        expect(demoLink(element)?.getAttribute('aria-label')).toBe(copy.ariaLabel);
+      });
     });
 
     it('shows each project with its real status', async () => {

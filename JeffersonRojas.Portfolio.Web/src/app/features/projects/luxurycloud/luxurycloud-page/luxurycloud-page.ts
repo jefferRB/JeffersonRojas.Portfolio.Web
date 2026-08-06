@@ -10,10 +10,11 @@ import { RouterLink } from '@angular/router';
 
 import { CaseStudyContext } from '../../../../core/layout/case-study-context';
 
-import { PROJECT_LINKS } from '../../../../core/config/site.config';
+import { CLIENT_DEMOS, PROJECT_LINKS } from '../../../../core/config/site.config';
 import { localizedPath } from '../../../../core/i18n/locale';
 import { TranslationService } from '../../../../core/i18n/translation.service';
 import { SeoService } from '../../../../core/seo/seo.service';
+import { ClientDemoCard } from '../../../../shared/components/client-demo-card/client-demo-card';
 import { CASE_STUDY_PATHS } from '../../project.routes';
 import { ArchitectureDiagram } from '../architecture-diagram/architecture-diagram';
 import { EngineeringChallenges } from '../engineering-challenges/engineering-challenges';
@@ -26,10 +27,14 @@ import { EngineeringChallenges } from '../engineering-challenges/engineering-cha
  * turned the page into a scroll of screenshots. They now live together in the
  * gallery on the home page's Projects section, which is where someone looking
  * for "what does it look like" goes, and this page is left to the reasoning.
+ *
+ * The one moving image on the page is the recorded client demo beside Context.
+ * It stays a still frame until it is asked for, so the rule above still holds
+ * on load: nothing here is fetched to be looked at rather than read.
  */
 @Component({
   selector: 'app-luxurycloud-page',
-  imports: [RouterLink, ArchitectureDiagram, EngineeringChallenges],
+  imports: [RouterLink, ArchitectureDiagram, EngineeringChallenges, ClientDemoCard],
   templateUrl: './luxurycloud-page.html',
   styleUrl: './luxurycloud-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,6 +44,7 @@ export class LuxuryCloudPage {
   private readonly seo = inject(SeoService);
 
   protected readonly siteUrl = PROJECT_LINKS.luxurycloud;
+  protected readonly demo = CLIENT_DEMOS.luxurycloud;
 
   protected readonly t = this.translations.t;
   protected readonly copy = computed(() => this.translations.t().caseStudies.luxurycloud);

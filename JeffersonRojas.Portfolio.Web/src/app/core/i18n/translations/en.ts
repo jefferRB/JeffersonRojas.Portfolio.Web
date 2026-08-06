@@ -145,6 +145,11 @@ export const EN_TRANSLATIONS: Translations = {
         'Webhooks',
         'Background workers',
       ],
+      demo: {
+        label: 'Watch client-facing demo - Spanish',
+        ariaLabel:
+          'Watch the LuxuryCloud client-facing demo, recorded in Spanish, on YouTube (opens in a new tab)',
+      },
     },
     others: [
       {
@@ -292,6 +297,15 @@ export const EN_TRANSLATIONS: Translations = {
           'That setup was effective until it had to be repeated. Every new collaborator meant teaching the rules again. Every question about last month meant rebuilding the answer by hand. Nothing was wrong with the process; it simply had no place to live other than in people and in files.',
           'What reached me was a request to manage customers, plus spreadsheets, plus a series of conversations about how the day actually goes. My job was to sit with that material, follow the workflows to their edges, and decide what the software had to represent before writing any of it.',
         ],
+      },
+
+      demo: {
+        label: 'Client-facing demo',
+        title: 'How I introduced the product to prospective clients in Costa Rica',
+        description:
+          'This recorded walkthrough was shared as an initial product introduction for prospective clients. It demonstrates how I communicated the platform’s value, guided viewers through its core workflows, and translated a complex operational system into a clear product story.',
+        action: 'Watch product demo',
+        thumbnailAlt: 'Opening frame of the recorded LuxuryCloud product demo.',
       },
 
       myRole: {
@@ -580,6 +594,11 @@ export const EN_TRANSLATIONS: Translations = {
           'Simplifies inventory replenishment by identifying required units and organizing the process of bringing stock back to expected levels.',
       },
     },
+  },
+
+  videoDemo: {
+    play: 'Play the video: {title}',
+    close: 'Close',
   },
 
   footer: {
